@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">Expense Manager</string>
+
+    <!--    Sign In Screen-->
+    <string name="app_logo">App Logo</string>
+    <string name="txt_welcome">Welcome</string>
+    <string name="login_to_continue">Login to continue</string>
+    <string name="email_hint">E-mail address</string>
+    <string name="password_hint">Password</string>
+    <string name="no_account">Don\'t have an account?</string>
+
+    <!--    Sign Up Screen-->
+    <string name="sign_up">SIGN UP</string>
+    <string name="first_name_hint">First name</string>
+    <string name="family_name_hint">Family name</string>
+    <string name="confirm_password_hint">Confirm password</string>
+    <string name="get_started">Get Started</string>
+    <string name="user_session">USER_SESSION</string>
 </resources>
