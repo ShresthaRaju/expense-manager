@@ -38,6 +38,7 @@ public class AuthImpl {
             if (!signUpResponse.isSuccessful()) {
                 apiError = gson.fromJson(signUpResponse.errorBody().string(), APIError.class);
                 authListener.onError(apiError.getError());
+//                return isSignUpSuccessful;
             } else if (signUpResponse.body().getUser() != null) {
                 isSignUpSuccessful = true;
             }
@@ -57,6 +58,7 @@ public class AuthImpl {
             if (!loginResponse.isSuccessful()) {
                 apiError = gson.fromJson(loginResponse.errorBody().string(), APIError.class);
                 authListener.onError(apiError.getError());
+//                return user;
             } else if (loginResponse.body().getUser() != null) {
                 user = loginResponse.body().getUser();
             }
