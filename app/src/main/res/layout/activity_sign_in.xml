@@ -124,6 +124,7 @@
                 app:layout_constraintVertical_bias="0.0">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_sign_in_email_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/ic_email_black"
@@ -153,6 +154,7 @@
                 app:passwordToggleEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_sign_in_password_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/ic_lock_open_black"

@@ -9,4 +9,7 @@
     <color name="colorGrey100">#f5f5f5</color>
     <color name="colorSignInAccent">#083863</color>
     <color name="colorYellow">#FEDB41</color>
+    <color name="colorBlack">#000</color>
+    <color name="colorBackground">#F5F5F5</color>
+    <color name="colorIconBg">#e0e0e0</color>
 </resources>
