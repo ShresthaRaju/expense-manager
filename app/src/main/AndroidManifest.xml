@@ -15,7 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".CategoryeiActivity"></activity>
+        <activity android:name=".ui.NewTransactionActivity"></activity>
+        <activity android:name=".CategoryeiActivity" />
         <activity
             android:name=".ui.SignUpActivity"
             android:screenOrientation="portrait" />
