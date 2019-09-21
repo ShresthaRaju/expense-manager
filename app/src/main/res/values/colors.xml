@@ -6,10 +6,10 @@
 
     <color name="colorWhite">#FFFFFF</color>
     <color name="signUpColor">#00EFD1</color>
-    <color name="colorGrey100">#f5f5f5</color>
     <color name="colorSignInAccent">#083863</color>
     <color name="colorYellow">#FEDB41</color>
     <color name="colorBlack">#000</color>
     <color name="colorBackground">#F5F5F5</color>
     <color name="colorIconBg">#e0e0e0</color>
+    <color name="colorBottomNav">#eeeeee</color>
 </resources>

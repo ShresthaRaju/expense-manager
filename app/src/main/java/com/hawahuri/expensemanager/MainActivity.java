@@ -1,32 +1,69 @@
 package com.hawahuri.expensemanager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.gauravk.bubblenavigation.BubbleNavigationConstraintView;
 import com.gauravk.bubblenavigation.listener.BubbleNavigationChangeListener;
+import com.hawahuri.expensemanager.fragments.AboutFragment;
 import com.hawahuri.expensemanager.fragments.AllCategoriesFragment;
+import com.hawahuri.expensemanager.fragments.ChartFragment;
+import com.hawahuri.expensemanager.fragments.HomeFragment;
+import com.hawahuri.expensemanager.fragments.ProfileFragment;
+import com.hawahuri.expensemanager.ui.NewTransactionActivity;
 
-public class MainActivity extends AppCompatActivity {
-
-    private BubbleNavigationConstraintView navigationView;
+public class MainActivity extends AppCompatActivity implements BubbleNavigationChangeListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        navigationView = findViewById(R.id.bottom_navigation);
+        BubbleNavigationConstraintView navigationView = findViewById(R.id.bottom_navigation);
+        navigationView.setNavigationChangeListener(this);
 
-        navigationView.setNavigationChangeListener(new BubbleNavigationChangeListener() {
-            @Override
-            public void onNavigationChanged(View view, int position) {
-                if (view.getId() == R.id.nav_categories) {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, AllCategoriesFragment.newInstance("Categories")).commit();
-                }
-            }
-        });
+        loadFragment(HomeFragment.newInstance("Dashboard"));
+    }
+
+    public void newTransaction(View view) {
+
+        startActivity(new Intent(this, NewTransactionActivity.class));
+
+    }
+
+    private void loadFragment(Fragment activeFragment) {
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, activeFragment).commit();
+    }
+
+    @Override
+    public void onNavigationChanged(View view, int position) {
+        Fragment activeFragment = null;
+        switch (view.getId()) {
+            case R.id.nav_categories:
+                activeFragment = AllCategoriesFragment.newInstance("Categories");
+                break;
+
+            case R.id.nav_chart:
+                activeFragment = ChartFragment.newInstance("Charts");
+                break;
+
+            case R.id.nav_home:
+                activeFragment = HomeFragment.newInstance("Dashboard");
+                break;
+
+            case R.id.nav_profile:
+                activeFragment = ProfileFragment.newInstance("Profile");
+                break;
+
+            case R.id.nav_more:
+                activeFragment = AboutFragment.newInstance("About");
+                break;
+        }
+
+        loadFragment(activeFragment);
     }
 }

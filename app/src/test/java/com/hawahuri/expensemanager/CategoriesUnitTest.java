@@ -43,7 +43,7 @@ public class CategoriesUnitTest {
 
     @Test
     public void testCategory_Prepopulate_Categories() {
-        List<Category> defaultCategories = categoryImpl.viewDefaultCategories();
+        List<Category> defaultCategories = categoryImpl.getExpenseCategories();
         assertEquals(12, defaultCategories.size());
     }
 

@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/item_add_category"
-        android:icon="@drawable/ic_add_circle"
-        android:title="Add New Category"
+        android:id="@+id/mi_sign_out"
+        android:icon="@drawable/ic_sign_out"
+        android:title="@string/sign_out"
         app:showAsAction="always" />
 
 </menu>

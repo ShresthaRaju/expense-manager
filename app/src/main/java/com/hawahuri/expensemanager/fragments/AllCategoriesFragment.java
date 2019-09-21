@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
@@ -15,13 +16,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.hawahuri.expensemanager.CategoryeiActivity;
 import com.hawahuri.expensemanager.MainActivity;
 import com.hawahuri.expensemanager.R;
-import com.hawahuri.expensemanager.adapters.CategoryAdapter;
+import com.hawahuri.expensemanager.adapters.CategoriesAdapter;
 import com.hawahuri.expensemanager.impl.CategoryImpl;
 import com.hawahuri.expensemanager.models.Category;
+import com.hawahuri.expensemanager.ui.AddCategoryActivity;
 import com.hawahuri.expensemanager.utils.Helper;
+import com.hawahuri.expensemanager.utils.UserSession;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,11 +31,13 @@ import java.util.List;
 public class AllCategoriesFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
-    private String toolbarTitle;
-    private CategoryAdapter categoryAdapter;
-    private RecyclerView categoriesContainer;
-    private List<Category> allCategories;
+    private List<Category> defaultCategories;
+    private List<Category> userCategories;
     private CategoryImpl categoryImpl;
+    private UserSession userSession;
+    private View divider;
+    private TextView myCategories;
+    private RecyclerView userCategoriesContainer;
 
     public AllCategoriesFragment() {
 
@@ -51,10 +55,13 @@ public class AllCategoriesFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        userSession = new UserSession(getActivity());
         categoryImpl = new CategoryImpl();
-        allCategories = new ArrayList<>();
-        viewAllCategory();
+        defaultCategories = new ArrayList<>();
+        userCategories = new ArrayList<>();
 
+        showDefaultCategories();
+        showUserCategories();
     }
 
     @Override
@@ -64,11 +71,21 @@ public class AllCategoriesFragment extends Fragment {
 
         initToolbar(categoriesView);
 
-        categoriesContainer = categoriesView.findViewById(R.id.all_categories_container);
-        categoriesContainer.setLayoutManager(new LinearLayoutManager(getActivity()));
+        divider = categoriesView.findViewById(R.id.divider);
+        myCategories = categoriesView.findViewById(R.id.tv_my_categories);
 
-        categoryAdapter = new CategoryAdapter(getActivity(), allCategories);
-        categoriesContainer.setAdapter(categoryAdapter);
+        RecyclerView defaultCategoriesContainer = categoriesView.findViewById(R.id.def_categories_container);
+        defaultCategoriesContainer.setLayoutManager(new LinearLayoutManager(getActivity()));
+        userCategoriesContainer = categoriesView.findViewById(R.id.user_categories_container);
+        userCategoriesContainer.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        CategoriesAdapter defCategoriesAdapter = new CategoriesAdapter(getActivity(), defaultCategories, "");
+        defaultCategoriesContainer.setAdapter(defCategoriesAdapter);
+
+        toggleVisibility();
+
+        CategoriesAdapter userCategoriesAdapter = new CategoriesAdapter(getActivity(), userCategories, "user");
+        userCategoriesContainer.setAdapter(userCategoriesAdapter);
 
         return categoriesView;
     }
@@ -77,7 +94,7 @@ public class AllCategoriesFragment extends Fragment {
         Toolbar categoriesToolbar = view.findViewById(R.id.categories_toolbar);
         ((MainActivity) getActivity()).setSupportActionBar(categoriesToolbar);
         if (getArguments() != null) {
-            toolbarTitle = getArguments().getString(ARG_PARAM1);
+            String toolbarTitle = getArguments().getString(ARG_PARAM1);
             ((MainActivity) getActivity()).getSupportActionBar().setTitle(toolbarTitle);
             setHasOptionsMenu(true);
         }
@@ -85,35 +102,40 @@ public class AllCategoriesFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_category, menu);
         super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_category, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.item_add_category) {
-            Intent intent = new Intent(getActivity(), CategoryeiActivity.class);
-            startActivity(intent);
-
-
-//            Toast.makeText(getActivity(), "New Category", Toast.LENGTH_LONG).show();
+            Intent addCategoryIntent = new Intent(getActivity(), AddCategoryActivity.class);
+            startActivity(addCategoryIntent);
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void viewAllCategory() {
+    private void showDefaultCategories() {
         Helper.StrictMode();
+        defaultCategories = categoryImpl.getExpenseCategories();
+        defaultCategories.addAll(categoryImpl.getIncomeCategories());
+    }
 
-        allCategories = categoryImpl.viewAllCategories();
-//
-//        if (categoryImpl.viewAllCategories() != null) {
-//            allCategories = categoryImpl.viewAllCategories();
-//        } else if (categoryImpl.viewAllCategories() == null) {
-//            Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
-//
-//
-//        }
+    private void showUserCategories() {
+        Helper.StrictMode();
+        userCategories = categoryImpl.getUserCategories(userSession.getUser().get_id());
+    }
 
+    private void toggleVisibility() {
+        if (userCategories.size() < 1) {
+            divider.setVisibility(View.GONE);
+            myCategories.setVisibility(View.GONE);
+            userCategoriesContainer.setVisibility(View.GONE);
+        } else {
+            divider.setVisibility(View.VISIBLE);
+            myCategories.setVisibility(View.VISIBLE);
+            userCategoriesContainer.setVisibility(View.VISIBLE);
+        }
     }
 }

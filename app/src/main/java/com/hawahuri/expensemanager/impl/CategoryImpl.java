@@ -29,46 +29,79 @@ public class CategoryImpl {
         apiError = new APIError();
     }
 
-    public Category addNewCategory(Category category) {
-        Category addcategory = null;
-        Call<CategoryResponse> categoryResponseCall = categoryAPI.createNewCategory(category);
+    public CategoryResponse addNewCategory(Category category) {
+        CategoryResponse categoryResponse = null;
+        Call<CategoryResponse> addCategoryCall = categoryAPI.createNewCategory(category);
         try {
-            Response<CategoryResponse> categoryResponses = categoryResponseCall.execute();
-            if (!categoryResponses.isSuccessful()) {
-                apiError = gson.fromJson(categoryResponses.errorBody().string(), APIError.class);
+            Response<CategoryResponse> addCategoryResponse = addCategoryCall.execute();
+            if (!addCategoryResponse.isSuccessful()) {
+                apiError = gson.fromJson(addCategoryResponse.errorBody().string(), APIError.class);
                 categoryListener.onError(apiError.getError());
-//                return  addcategory;
-            } else if (categoryResponses.body().getCategory() != null) {
-                addcategory = categoryResponses.body().getCategory();
-//                addcategory=categoryResponses.body().getCategory();
+//                return  categoryResponse;
+            } else if (addCategoryResponse.body().getCategory() != null) {
+                categoryResponse = addCategoryResponse.body();
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-
-        return addcategory;
+        return categoryResponse;
     }
 
-    public List<Category> viewAllCategories() {
-        List<Category> allCategories = new ArrayList<>();
-        Call<CategoryResponse> catcall = categoryAPI.getAllCategories();
+    public List<Category> getExpenseCategories() {
+        List<Category> expenseCategories = new ArrayList<>();
+        Call<CategoryResponse> expenseCategoriesCall = categoryAPI.fetchExpenseCategories();
         try {
-            Response<CategoryResponse> categoryResponse = catcall.execute();
-            if (!categoryResponse.isSuccessful()) {
-                return allCategories;
-            } else if (categoryResponse.body().getCategories() != null) {
-                allCategories = categoryResponse.body().getCategories();
+            Response<CategoryResponse> expenseCategoriesResponse = expenseCategoriesCall.execute();
+            if (!expenseCategoriesResponse.isSuccessful()) {
+                return expenseCategories;
+            } else if (expenseCategoriesResponse.body().getCategories() != null) {
+                expenseCategories = expenseCategoriesResponse.body().getCategories();
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return allCategories;
+        return expenseCategories;
+    }
+
+    public List<Category> getIncomeCategories() {
+        List<Category> incomeCategories = new ArrayList<>();
+        Call<CategoryResponse> incomeCategoriesCall = categoryAPI.fetchIncomeCategories();
+        try {
+            Response<CategoryResponse> incomeCategoriesResponse = incomeCategoriesCall.execute();
+            if (!incomeCategoriesResponse.isSuccessful()) {
+                return incomeCategories;
+            } else if (incomeCategoriesResponse.body().getCategories() != null) {
+                incomeCategories = incomeCategoriesResponse.body().getCategories();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return incomeCategories;
+    }
+
+    public List<Category> getUserCategories(String userId) {
+        List<Category> userCategories = new ArrayList<>();
+        Call<CategoryResponse> userCategoriesCall = categoryAPI.fetchUserCategories(userId);
+        try {
+            Response<CategoryResponse> userCategoriesResponse = userCategoriesCall.execute();
+            if (!userCategoriesResponse.isSuccessful()) {
+                return userCategories;
+            } else if (userCategoriesResponse.body().getCategories() != null) {
+                userCategories = userCategoriesResponse.body().getCategories();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return userCategories;
     }
 
     public interface CategoryListener {
         void onError(Error error);
     }
 
+    public void setCategoryListener(CategoryListener categoryListener) {
+        this.categoryListener = categoryListener;
+    }
 
 }
