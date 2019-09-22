@@ -12,9 +12,11 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.hawahuri.expensemanager.MainActivity;
 import com.hawahuri.expensemanager.R;
@@ -37,6 +39,7 @@ public class AllCategoriesFragment extends Fragment {
     private UserSession userSession;
     private View divider;
     private TextView myCategories;
+    private RecyclerView defaultCategoriesContainer;
     private RecyclerView userCategoriesContainer;
 
     public AllCategoriesFragment() {
@@ -59,7 +62,11 @@ public class AllCategoriesFragment extends Fragment {
         categoryImpl = new CategoryImpl();
         defaultCategories = new ArrayList<>();
         userCategories = new ArrayList<>();
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
         showDefaultCategories();
         showUserCategories();
     }
@@ -74,18 +81,10 @@ public class AllCategoriesFragment extends Fragment {
         divider = categoriesView.findViewById(R.id.divider);
         myCategories = categoriesView.findViewById(R.id.tv_my_categories);
 
-        RecyclerView defaultCategoriesContainer = categoriesView.findViewById(R.id.def_categories_container);
+        defaultCategoriesContainer = categoriesView.findViewById(R.id.def_categories_container);
         defaultCategoriesContainer.setLayoutManager(new LinearLayoutManager(getActivity()));
         userCategoriesContainer = categoriesView.findViewById(R.id.user_categories_container);
         userCategoriesContainer.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        CategoriesAdapter defCategoriesAdapter = new CategoriesAdapter(getActivity(), defaultCategories, "");
-        defaultCategoriesContainer.setAdapter(defCategoriesAdapter);
-
-        toggleVisibility();
-
-        CategoriesAdapter userCategoriesAdapter = new CategoriesAdapter(getActivity(), userCategories, "user");
-        userCategoriesContainer.setAdapter(userCategoriesAdapter);
 
         return categoriesView;
     }
@@ -120,11 +119,16 @@ public class AllCategoriesFragment extends Fragment {
         Helper.StrictMode();
         defaultCategories = categoryImpl.getExpenseCategories();
         defaultCategories.addAll(categoryImpl.getIncomeCategories());
+        CategoriesAdapter defCategoriesAdapter = new CategoriesAdapter(getActivity(), defaultCategories, "");
+        defaultCategoriesContainer.setAdapter(defCategoriesAdapter);
     }
 
-    private void showUserCategories() {
+    public void showUserCategories() {
         Helper.StrictMode();
         userCategories = categoryImpl.getUserCategories(userSession.getUser().get_id());
+        toggleVisibility();
+        CategoriesAdapter userCategoriesAdapter = new CategoriesAdapter(getActivity(), userCategories, "user");
+        userCategoriesContainer.setAdapter(userCategoriesAdapter);
     }
 
     private void toggleVisibility() {
