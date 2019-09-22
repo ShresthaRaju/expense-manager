@@ -35,9 +35,9 @@ public class CategoryImpl {
         try {
             Response<CategoryResponse> addCategoryResponse = addCategoryCall.execute();
             if (!addCategoryResponse.isSuccessful()) {
-//                apiError = gson.fromJson(addCategoryResponse.errorBody().string(), APIError.class);
-//                categoryListener.onError(apiError.getError());
-                return  categoryResponse;
+                apiError = gson.fromJson(addCategoryResponse.errorBody().string(), APIError.class);
+                categoryListener.onError(apiError.getError());
+//                return  categoryResponse;
             } else if (addCategoryResponse.body().getCategory() != null) {
                 categoryResponse = addCategoryResponse.body();
             }
