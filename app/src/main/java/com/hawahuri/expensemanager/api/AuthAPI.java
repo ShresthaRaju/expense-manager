@@ -11,9 +11,11 @@ import retrofit2.http.POST;
 
 public interface AuthAPI {
 
+    // register a new user
     @POST("sign-up")
     Call<UserResponse> registerUser(@Body User user);
 
+    // log the user into the app
     @FormUrlEncoded
     @POST("sign-in")
     Call<UserResponse> loginUser(@Field("email") String email, @Field("password") String password);

@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorGrey100"
+    android:background="@color/colorBackground"
     tools:context=".ui.SignInActivity">
 
     <Button
         android:id="@+id/btn_sign_up"
         android:layout_width="wrap_content"
         android:layout_height="25dp"
-        android:background="@drawable/btn_outline_sign_up"
+        android:background="@drawable/btn_sign_up"
         android:onClick="showSignUpForm"
         android:text="@string/sign_up"
         android:textColor="@color/colorWhite"
@@ -124,6 +124,7 @@
                 app:layout_constraintVertical_bias="0.0">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_sign_in_email_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/ic_email_black"
@@ -153,6 +154,7 @@
                 app:passwordToggleEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_sign_in_password_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/ic_lock_open_black"

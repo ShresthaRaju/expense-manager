@@ -20,30 +20,31 @@ public class AuthenticationUnitTest {
     }
 
     // Sign Up Test
+
     @Test
-    public void testSignUp_ValidDetails_ShouldCreateNewUser() {
-        User user = new User("test", "test", "test@example.com", "password");
+    public void testSignUp_ValidDetails_ShouldCreateANewUser() {
+        User user = new User("Test", "Test", "test@example.com", "password");
         boolean signedUp = authImpl.registerUser(user);
         assertTrue(signedUp);
     }
 
     @Test
-    public void testSignUp_EmptyField_ShouldNotCreateNewUser() {
-        User user = new User("", "test", "test@example.com", "password");
+    public void testSignUp_EmptyField_ShouldNotCreateANewUser() {
+        User user = new User("", "Test", "test@example.com", "password");
         boolean signedUp = authImpl.registerUser(user);
         assertFalse(signedUp);
     }
 
     @Test
-    public void testSignUp_InvalidDetails_ShouldNotCreateNewUser() {
-        User user = new User("t", "test", "test@example.com", "password");
+    public void testSignUp_InvalidDetails_ShouldNotCreateANewUser() {
+        User user = new User("T", "Test", "test@example.com", "password");
         boolean signedUp = authImpl.registerUser(user);
         assertFalse(signedUp);
     }
 
     @Test
-    public void testSignUp_ExistingEmail_ShouldNotCreateNewUser() {
-        User user = new User("test", "test", "test@example.com", "password");
+    public void testSignUp_ExistingEmail_ShouldNotCreateANewUser() {
+        User user = new User("New", "User", "test@example.com", "password");
         boolean signedUp = authImpl.registerUser(user);
         assertFalse(signedUp);
     }
@@ -51,7 +52,7 @@ public class AuthenticationUnitTest {
     // Sign In Test
 
     @Test
-    public void testLogin_ValidDetails_ShouldReturnAuthUser() {
+    public void testSignIn_ValidDetails_ShouldReturnAuthUser() {
 
         User authUser = authImpl.loginUser("test@example.com", "password");
 
@@ -59,15 +60,15 @@ public class AuthenticationUnitTest {
     }
 
     @Test
-    public void testLogin_EmptyField_ShouldDenyLogin() {
+    public void testSignIn_EmptyField_ShouldDenyLogin() {
 
-        User authUser = authImpl.loginUser(" ", "password");
+        User authUser = authImpl.loginUser("", "password");
 
         assertNull(authUser);
     }
 
     @Test
-    public void testLogin_InvalidDetails_ShouldDenyLogin() {
+    public void testSignIn_InvalidDetails_ShouldDenyLogin() {
 
         User authUser = authImpl.loginUser("rest@example.com", "password");
 
