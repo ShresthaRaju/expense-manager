@@ -12,11 +12,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.hawahuri.expensemanager.MainActivity;
 import com.hawahuri.expensemanager.R;
@@ -107,7 +105,7 @@ public class AllCategoriesFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.item_add_category) {
+        if (item.getItemId() == R.id.mi_add_category) {
             Intent addCategoryIntent = new Intent(getActivity(), AddCategoryActivity.class);
             startActivity(addCategoryIntent);
             return true;

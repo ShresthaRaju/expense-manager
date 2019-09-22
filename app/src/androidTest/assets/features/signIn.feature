@@ -12,3 +12,26 @@ Feature: Sign In
     Examples:
       | email           | password |
       | raj@example.com | password |
+
+  @login-feature
+  Scenario Outline: User can provide an empty field
+    Given I am on the sign in screen
+    When I enter email <email>
+    And I click on the sign in button
+    Then I receive a field required message
+
+    Examples:
+      | email           |
+      | raj@example.com |
+
+  @login-feature
+  Scenario Outline: User can provide an invalid value
+    Given I am on the sign in screen
+    When I enter email <email>
+    And I enter password <password>
+    And I click on the sign in button
+    Then I receive an invalid login message
+
+    Examples:
+      | email           | password  |
+      | raj@example.com | passwords |

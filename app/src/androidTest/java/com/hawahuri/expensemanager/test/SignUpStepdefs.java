@@ -1,35 +1,35 @@
 package com.hawahuri.expensemanager.test;
 
+import android.app.Activity;
 import android.content.Intent;
 
 import androidx.test.rule.ActivityTestRule;
 
 import com.hawahuri.expensemanager.R;
-import com.hawahuri.expensemanager.ui.SignInActivity;
 import com.hawahuri.expensemanager.ui.SignUpActivity;
 
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
+import cucumber.api.java.en.Then;
 
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.RootMatchers.withDecorView;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.not;
+import static junit.framework.TestCase.assertNotNull;
 
 public class SignUpStepdefs {
-
-    private ActivityTestRule<SignInActivity> signInTestRule = new ActivityTestRule<>(SignInActivity.class);
     private ActivityTestRule<SignUpActivity> signUpTestRule = new ActivityTestRule<>(SignUpActivity.class);
+    private Activity signUpActivity;
 
     @Before("@register-feature")
     public void setup() {
-        signInTestRule.launchActivity(new Intent());
+        signUpTestRule.launchActivity(new Intent());
+        signUpActivity = signUpTestRule.getActivity();
     }
 
     @After("@register-feature")
@@ -39,7 +39,7 @@ public class SignUpStepdefs {
 
     @cucumber.api.java.en.Given("^I am on the sign up screen$")
     public void iAmOnTheSignUpScreen() {
-        onView(withId(R.id.btn_sign_up)).perform(click());
+        assertNotNull(signUpActivity);
     }
 
     @cucumber.api.java.en.When("^I input firstName (\\S+)$")
@@ -74,10 +74,25 @@ public class SignUpStepdefs {
         onView(withId(R.id.btn_get_started)).perform(click());
     }
 
-    @cucumber.api.java.en.Then("^I should see the login screen$")
+    @Then("^I should see the login screen$")
     public void iShouldSeeTheLoginScreen() {
-        onView(withId(R.id.tv_login)).check(matches(withText(R.string.login_to_continue)));
-        onView(withText("Successfully registered !"))
-                .inRoot(withDecorView(not(signInTestRule.getActivity().getWindow().getDecorView()))).check(matches(isDisplayed()));
+//        onView(withId(R.id.tv_login)).check(matches(withText(R.string.login_to_continue)));
+//        onView(withText("Successfully registered !"))
+//                .inRoot(withDecorView(not(signUpTestRule.getActivity().getWindow().getDecorView()))).check(matches(isDisplayed()));
+    }
+
+    @Then("^I should see field required message$")
+    public void iShouldSeeFieldRequiredMessage() {
+        onView(withText("First name is required")).check(matches(isDisplayed()));
+    }
+
+    @Then("^I should see invalid detail error message$")
+    public void iShouldSeeInvalidDetailErrorMessage() {
+        onView(withText("First name length must be at least 2 characters long")).check(matches(isDisplayed()));
+    }
+
+    @Then("^I should see email exists message$")
+    public void iShouldSeeEmailExistsMessage() {
+        onView(withText("Email already registered!")).check(matches(isDisplayed()));
     }
 }

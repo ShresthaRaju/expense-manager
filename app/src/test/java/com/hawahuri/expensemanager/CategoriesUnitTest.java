@@ -2,6 +2,7 @@ package com.hawahuri.expensemanager;
 
 import com.hawahuri.expensemanager.impl.CategoryImpl;
 import com.hawahuri.expensemanager.models.Category;
+import com.hawahuri.expensemanager.response.CategoryResponse;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -22,29 +23,35 @@ public class CategoriesUnitTest {
 
     @Test
     public void testCategory_ValidName_ShouldAddNewACategory() {
-        Category newCategory = new Category("Test Category", "Expense", "others.png", "adfa823tdsgs");
-        Category addedCategory = categoryImpl.addNewCategory(newCategory);
-        assertEquals(newCategory.getName(), addedCategory.getName());
+        Category newCategory = new Category("Test Category", "Expense", "others.png", "5d87173613079e1a6c591e1e");
+        CategoryResponse categoryResponse = categoryImpl.addNewCategory(newCategory);
+        assertEquals(newCategory.getName(), categoryResponse.getCategory().getName());
     }
 
     @Test
     public void testCategory_EmptyName_ShouldNotAddANewCategory() {
-        Category newCategory = new Category("", "Expense", "others.png", "adfa823tdsgs");
-        Category addedCategory = categoryImpl.addNewCategory(newCategory);
-        assertNull(addedCategory);
+        Category newCategory = new Category("", "Expense", "others.png", "5d87173613079e1a6c591e1e");
+        CategoryResponse categoryResponse = categoryImpl.addNewCategory(newCategory);
+        assertNull(categoryResponse);
     }
 
     @Test
     public void testCategory_ExistingName_ShouldNotAddANewCategory() {
-        Category newCategory = new Category("Test Category", "Expense", "others.png", "adfa823tdsgs");
-        Category addedCategory = categoryImpl.addNewCategory(newCategory);
-        assertNull(addedCategory);
+        Category newCategory = new Category("Test Category", "Expense", "others.png", "5d87173613079e1a6c591e1e");
+        CategoryResponse categoryResponse = categoryImpl.addNewCategory(newCategory);
+        assertNull(categoryResponse);
     }
 
     @Test
-    public void testCategory_Prepopulate_Categories() {
-        List<Category> defaultCategories = categoryImpl.getExpenseCategories();
-        assertEquals(12, defaultCategories.size());
+    public void testCategory_DefExpense_Categories() {
+        List<Category> expCategories = categoryImpl.getExpenseCategories();
+        assertEquals(12, expCategories.size());
+    }
+
+    @Test
+    public void testCategory_DefIncome_Categories() {
+        List<Category> incCategories = categoryImpl.getIncomeCategories();
+        assertEquals(4, incCategories.size());
     }
 
 }
