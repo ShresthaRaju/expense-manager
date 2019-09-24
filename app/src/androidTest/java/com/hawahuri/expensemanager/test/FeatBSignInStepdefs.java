@@ -24,7 +24,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.TestCase.assertNotNull;
 
-public class SignInStepdefs {
+public class FeatBSignInStepdefs {
 
     @Rule
     public ActivityTestRule<SignInActivity> signInTestRule = new ActivityTestRule<>(SignInActivity.class);
@@ -67,7 +67,6 @@ public class SignInStepdefs {
     @cucumber.api.java.en.Then("^I am redirected to the dashboard$")
     public void iAmRedirectedToTheDashboard() {
         onView(withId(R.id.tv_dashboard)).check(matches(withText(R.string.welcome)));
-        onView(withId(R.id.mi_sign_out)).perform(click());
     }
 
     @Then("^I receive a field required message$")

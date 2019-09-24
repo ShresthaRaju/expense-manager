@@ -22,7 +22,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.TestCase.assertNotNull;
 
-public class SignUpStepdefs {
+public class FeatASignUpStepdefs {
     private ActivityTestRule<SignUpActivity> signUpTestRule = new ActivityTestRule<>(SignUpActivity.class);
     private Activity signUpActivity;
 
