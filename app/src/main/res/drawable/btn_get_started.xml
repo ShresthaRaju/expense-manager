@@ -5,7 +5,7 @@
         <shape android:shape="rectangle">
             <corners android:radius="40dp" />
             <padding android:bottom="8dp" android:left="8dp" android:right="8dp" android:top="8dp" />
-            <solid android:color="@color/signUpColor" />
+            <solid android:color="@color/colorYellow" />
         </shape>
     </item>
 
