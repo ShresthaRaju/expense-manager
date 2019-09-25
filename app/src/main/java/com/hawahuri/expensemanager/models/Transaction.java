@@ -2,9 +2,9 @@ package com.hawahuri.expensemanager.models;
 
 public class Transaction {
     private String memo, type, category, creator, date;
-    private Number amount;
+    private double amount;
 
-    public Transaction(String memo, String type, String category, String creator, String date, Number amount) {
+    public Transaction(String memo, String type, String category, String creator, String date, double amount) {
         this.memo = memo;
         this.type = type;
         this.category = category;
@@ -33,7 +33,7 @@ public class Transaction {
         return date;
     }
 
-    public Number getAmount() {
+    public double getAmount() {
         return amount;
     }
 }

@@ -9,12 +9,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.hawahuri.expensemanager.R;
 import com.hawahuri.expensemanager.impl.TransactionImpl;
-import com.hawahuri.expensemanager.models.Category;
 import com.hawahuri.expensemanager.models.Transaction;
 import com.hawahuri.expensemanager.response.TransactionResponse;
 import com.hawahuri.expensemanager.utils.EditTextValidation;
@@ -63,7 +60,7 @@ public class NewTransactionActivity extends AppCompatActivity {
         if (!EditTextValidation.isEmpty(etTransactionMemo) && !EditTextValidation.isEmpty(etTransactionAmount)) {
             Helper.StrictMode();
             String memo = etTransactionMemo.getEditText().getText().toString().trim();
-            Number amount = Integer.parseInt(etTransactionAmount.getEditText().getText().toString().trim());
+            double amount = Double.parseDouble(etTransactionAmount.getEditText().getText().toString().trim());
             String creator = userSession.getUser().get_id();
             String category = "5d864412c5a49535f48bc9ee";
             String type = "Expense";
