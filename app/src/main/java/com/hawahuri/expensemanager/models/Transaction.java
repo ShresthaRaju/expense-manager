@@ -4,6 +4,14 @@ public class Transaction {
     private String memo, type, category, creator, date;
     private double amount;
 
+    public Transaction(String memo, String type, String category, String creator, String date) {
+        this.memo = memo;
+        this.type = type;
+        this.category = category;
+        this.creator = creator;
+        this.date = date;
+    }
+
     public Transaction(String memo, String type, String category, String creator, String date, double amount) {
         this.memo = memo;
         this.type = type;

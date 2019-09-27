@@ -2,7 +2,6 @@ package com.hawahuri.expensemanager.impl;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.hawahuri.expensemanager.api.CategoryAPI;
 import com.hawahuri.expensemanager.api.TransactionAPI;
 import com.hawahuri.expensemanager.models.Error;
 import com.hawahuri.expensemanager.models.Transaction;
@@ -33,9 +32,9 @@ public class TransactionImpl {
         try {
             Response<TransactionResponse> addTransactionResponse = addTransactionCall.execute();
             if (!addTransactionResponse.isSuccessful()) {
-                apiError = gson.fromJson(addTransactionResponse.errorBody().string(), APIError.class);
-                transactionListener.onError(apiError.getError());
-//                return transactionResponse;
+//                apiError = gson.fromJson(addTransactionResponse.errorBody().string(), APIError.class);
+//                transactionListener.onError(apiError.getError());
+                return transactionResponse;
             } else if (addTransactionResponse.body().getTransaction() != null) {
                 transactionResponse = addTransactionResponse.body();
             }
@@ -46,7 +45,27 @@ public class TransactionImpl {
         return transactionResponse;
     }
 
+    public TransactionResponse getMyTransactions(String creator) {
+        TransactionResponse transactionResponse = null;
+        Call<TransactionResponse> myTransactionsCall = transactionAPI.getMyTransactions(creator);
+        try {
+            Response<TransactionResponse> myTransactionsResponse = myTransactionsCall.execute();
+            if (!myTransactionsResponse.isSuccessful()) {
+                return transactionResponse;
+            }
+            transactionResponse = myTransactionsResponse.body();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return transactionResponse;
+    }
+
+
     public interface TransactionListener {
         void onError(Error error);
+    }
+
+    public void setTransactionListener(TransactionListener transactionListener) {
+        this.transactionListener = transactionListener;
     }
 }

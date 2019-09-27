@@ -34,17 +34,19 @@
     <string name="button_delete">Button Delete</string>
 
     <!--    New Transaction-->
+    <string name="expense">Expense</string>
+    <string name="income">Income</string>
     <string name="memo_hint">Memo</string>
     <string name="amount_hint">Amount</string>
-    <string name="calendar">Calendar</string>
+    <string name="select_date">Date</string>
     <string name="btn_add">Add</string>
 
+    <!--    Nav items-->
     <string name="welcome">Welcome to Expense Manager!</string>
     <string name="chart_frag">Charts go here</string>
     <string name="user_profile">User Profile</string>
     <string name="about">About App</string>
     <string name="sign_out">Sign Out</string>
-    <string name="expense">Expense</string>
-    <string name="income">Income</string>
+
 
 </resources>
