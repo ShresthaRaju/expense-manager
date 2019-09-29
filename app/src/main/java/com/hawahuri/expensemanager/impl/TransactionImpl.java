@@ -6,13 +6,10 @@ import com.hawahuri.expensemanager.api.TransactionAPI;
 import com.hawahuri.expensemanager.models.Error;
 import com.hawahuri.expensemanager.models.Transaction;
 import com.hawahuri.expensemanager.response.TransactionResponse;
-import com.hawahuri.expensemanager.response.UserResponse;
 import com.hawahuri.expensemanager.utils.APIError;
 import com.hawahuri.expensemanager.utils.RetrofitClient;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -35,9 +32,9 @@ public class TransactionImpl {
         try {
             Response<TransactionResponse> addTransactionResponse = addTransactionCall.execute();
             if (!addTransactionResponse.isSuccessful()) {
-//                apiError = gson.fromJson(addTransactionResponse.errorBody().string(), APIError.class);
-//                transactionListener.onError(apiError.getError());
-                return transactionResponse;
+                apiError = gson.fromJson(addTransactionResponse.errorBody().string(), APIError.class);
+                transactionListener.onError(apiError.getError());
+//                return transactionResponse;
             } else if (addTransactionResponse.body().getTransaction() != null) {
                 transactionResponse = addTransactionResponse.body();
             }
@@ -47,22 +44,6 @@ public class TransactionImpl {
         }
         return transactionResponse;
     }
-
-//    public List<Transaction> getTransactions(String creator) {
-//        List<Transaction> transactionResponse = new ArrayList<>();
-//        Call<TransactionResponse> myTransactionsCall = transactionAPI.getTransactions(creator);
-//        try {
-//            Response<TransactionResponse> myTransactionsResponse = myTransactionsCall.execute();
-//            if (!myTransactionsResponse.isSuccessful()) {
-//
-//                return transactionResponse;
-//            }
-//            transactionResponse = myTransactionsResponse.body().getTransactions();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return transactionResponse;
-//    }
 
     public TransactionResponse getTransactions(String creator) {
         TransactionResponse transactionResponse = null;

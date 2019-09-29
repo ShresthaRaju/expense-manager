@@ -25,6 +25,12 @@
     <string name="home">Home</string>
     <string name="profile">Profile</string>
     <string name="more">More</string>
+    <string name="salary">Salary</string>
+    <string name="date">Date</string>
+    <string name="inc_val">999</string>
+    <string name="exp_val">222</string>
+    <string name="balance">Balance</string>
+    <string name="bal_val">777</string>
 
     <!-- Categories -->
     <string name="my_categories">My Categories</string>
@@ -47,8 +53,6 @@
     <string name="user_profile">User Profile</string>
     <string name="about">About App</string>
     <string name="sign_out">Sign Out</string>
-    <string name="salary">Salary</string>
-    <string name="date">Date</string>
 
 
 </resources>

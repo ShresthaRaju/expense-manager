@@ -43,7 +43,7 @@ public class NewTransactionActivity extends AppCompatActivity implements DatePic
     private CircleImageView categoryIcon;
     private ExpCategoriesBottomSheet expCategoriesBS;
     private IncCategoriesBottomSheet incCategoriesBS;
-    private Category category = null;
+    private String category;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,14 +96,11 @@ public class NewTransactionActivity extends AppCompatActivity implements DatePic
             String memo = etTransactionMemo.getEditText().getText().toString().trim();
             double amount = Double.parseDouble(etTransactionAmount.getEditText().getText().toString().trim());
             String transactionDate = etTransactionDate.getEditText().getText().toString().trim();
-            Transaction transaction = new Transaction(memo, transactionType, creator, transactionDate, amount,category);
+            Transaction transaction = new Transaction(memo, transactionType, creator, transactionDate, category, amount);
             TransactionResponse transactionResponse = transactionImpl.addNewTransaction(transaction);
             if (transactionResponse != null) {
                 Toast.makeText(this, transactionResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                etTransactionMemo.getEditText().setText("");
-                etTransactionAmount.getEditText().setText("");
-                setToday();
-                etTransactionMemo.requestFocus();
+                finish();
             }
         }
     }
@@ -162,14 +159,14 @@ public class NewTransactionActivity extends AppCompatActivity implements DatePic
 
     @Override
     public void onExpCatSelected(Category expCategory) {
-        category = expCategory;
+        category = expCategory.get_id();
         Helper.setIcon(expCategory.getIcon(), categoryIcon);
         expCategoriesBS.dismiss();
     }
 
     @Override
     public void onIncCatSelected(Category incCategory) {
-        category = incCategory;
+        category = incCategory.get_id();
         Helper.setIcon(incCategory.getIcon(), categoryIcon);
         incCategoriesBS.dismiss();
     }

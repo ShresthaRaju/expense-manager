@@ -11,16 +11,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hawahuri.expensemanager.R;
-import com.hawahuri.expensemanager.models.Transaction;
+import com.hawahuri.expensemanager.models.TransactionR;
 import com.hawahuri.expensemanager.utils.Helper;
 
 import java.util.List;
 
 public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder> {
     private Context context;
-    private List<Transaction> transactionList;
+    private List<TransactionR> transactionList;
 
-    public TransactionAdapter(Context context, List<Transaction> transactionList) {
+    public TransactionAdapter(Context context, List<TransactionR> transactionList) {
         this.context = context;
         this.transactionList = transactionList;
     }
@@ -34,7 +34,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull TransactionAdapter.TransactionViewHolder holder, int position) {
-        Transaction transaction = transactionList.get(position);
+        TransactionR transaction = transactionList.get(position);
         holder.bindData(transaction);
     }
 
@@ -56,9 +56,15 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
             transAmount = itemView.findViewById(R.id.tv_trans_amount);
         }
 
-        public void bindData(Transaction transaction) {
+        public void bindData(TransactionR transaction) {
             transType.setText(transaction.getType());
-            transAmount.setText(Double.toString(transaction.getAmount()));
+            if (transaction.getType().equals("Expense")) {
+                transAmount.setText("-" + transaction.getAmount());
+                transAmount.setTextColor(context.getResources().getColor(R.color.colorAccent));
+            } else {
+                transAmount.setText("+" + transaction.getAmount());
+                transAmount.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+            }
             transCategory.setText(transaction.getCategory().getName());
             transDate.setText(Helper.formatDate("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", "MM/dd", transaction.getDate()));
             Helper.setIcon(transaction.getCategory().getIcon(), transIcon);

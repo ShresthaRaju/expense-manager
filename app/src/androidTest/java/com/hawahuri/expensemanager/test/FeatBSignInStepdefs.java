@@ -66,7 +66,7 @@ public class FeatBSignInStepdefs {
 
     @cucumber.api.java.en.Then("^I am redirected to the dashboard$")
     public void iAmRedirectedToTheDashboard() {
-        onView(withId(R.id.tv_dashboard)).check(matches(withText(R.string.welcome)));
+        onView(withId(R.id.tv_income)).check(matches(withText(R.string.income)));
     }
 
     @Then("^I receive a field required message$")

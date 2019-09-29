@@ -24,8 +24,7 @@ import com.hawahuri.expensemanager.R;
 import com.hawahuri.expensemanager.adapters.TransactionAdapter;
 import com.hawahuri.expensemanager.impl.AuthImpl;
 import com.hawahuri.expensemanager.impl.TransactionImpl;
-import com.hawahuri.expensemanager.models.Transaction;
-import com.hawahuri.expensemanager.models.User;
+import com.hawahuri.expensemanager.models.TransactionR;
 import com.hawahuri.expensemanager.response.TransactionResponse;
 import com.hawahuri.expensemanager.response.UserResponse;
 import com.hawahuri.expensemanager.ui.SignInActivity;
@@ -37,10 +36,10 @@ import java.util.List;
 
 public class HomeFragment extends Fragment {
     private RecyclerView transactionsContainer;
-    private List<Transaction> userTransactions;
+    private List<TransactionR> userTransactions;
     private TransactionImpl transactionImpl;
     private UserSession userSession;
-    private TextView incomeValue,expenseValue,balance;
+    private TextView incomeValue, expenseValue, balance;
 
     private static final String ARG_PARAM1 = "param1";
 
@@ -75,9 +74,9 @@ public class HomeFragment extends Fragment {
         initToolbar(dashboardView);
         transactionsContainer = dashboardView.findViewById(R.id.main_recyclerview);
         transactionsContainer.setLayoutManager(new LinearLayoutManager(getActivity()));
-        incomeValue=dashboardView.findViewById(R.id.tv_income_value);
-        expenseValue=dashboardView.findViewById(R.id.tv_expense_value);
-        balance=dashboardView.findViewById(R.id.tv_balance_value);
+        incomeValue = dashboardView.findViewById(R.id.tv_income_value);
+        expenseValue = dashboardView.findViewById(R.id.tv_expense_value);
+        balance = dashboardView.findViewById(R.id.tv_balance_value);
 
         return dashboardView;
     }
@@ -121,12 +120,16 @@ public class HomeFragment extends Fragment {
             transactionsContainer.setAdapter(transactionAdapter);
         }
     }
-    public void showIncomeExpense(){
+
+    public void showIncomeExpense() {
         Helper.StrictMode();
-        AuthImpl authImpl=new AuthImpl();
-        UserResponse userResponse= authImpl.getIncomeExpense(userSession.getUser().get_id());
-        incomeValue.setText(Double.toString(userResponse.getUser().getTotalIncome()));
-        expenseValue.setText(Double.toString(userResponse.getUser().getTotalExpense()));
+        AuthImpl authImpl = new AuthImpl();
+        UserResponse userResponse = authImpl.getIncomeExpense(userSession.getUser().get_id());
+        double income = userResponse.getUser().getTotalIncome();
+        double expense = userResponse.getUser().getTotalExpense();
+        incomeValue.setText(String.valueOf(income));
+        expenseValue.setText(String.valueOf(expense));
+        balance.setText(String.valueOf(income - expense));
     }
 
     @Override

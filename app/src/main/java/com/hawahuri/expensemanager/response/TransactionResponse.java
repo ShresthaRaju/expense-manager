@@ -1,15 +1,15 @@
 package com.hawahuri.expensemanager.response;
 
-import com.hawahuri.expensemanager.models.Transaction;
+import com.hawahuri.expensemanager.models.TransactionR;
 
 import java.util.List;
 
 public class TransactionResponse {
-    private Transaction transaction;
+    private TransactionR transaction;
     private String message;
-    private List<Transaction> myTransactions;
+    private List<TransactionR> myTransactions;
 
-    public Transaction getTransaction() {
+    public TransactionR getTransaction() {
         return transaction;
     }
 
@@ -17,7 +17,7 @@ public class TransactionResponse {
         return message;
     }
 
-    public List<Transaction> getMyTransactions() {
+    public List<TransactionR> getMyTransactions() {
         return myTransactions;
     }
 }

@@ -9,8 +9,8 @@ Feature: Sign In
     Then I receive a field required message
 
     Examples:
-      | email           |
-      | raj@example.com |
+      | email                |
+      | hawahuri@example.com |
 
   @login-feature
   Scenario Outline: User can provide an invalid value
@@ -21,8 +21,8 @@ Feature: Sign In
     Then I receive an invalid login message
 
     Examples:
-      | email           | password  |
-      | raj@example.com | passwords |
+      | email                | password  |
+      | hawahuri@example.com | passwords |
 
   @login-feature
   Scenario Outline: User can successfully sign in and access the dashboard with valid details
@@ -33,5 +33,5 @@ Feature: Sign In
     Then I am redirected to the dashboard
 
     Examples:
-      | email           | password |
-      | raj@example.com | password |
+      | email                | password |
+      | hawahuri@example.com | password |
