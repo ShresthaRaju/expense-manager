@@ -2,6 +2,7 @@ package com.hawahuri.expensemanager.api;
 
 import com.hawahuri.expensemanager.models.Transaction;
 import com.hawahuri.expensemanager.response.TransactionResponse;
+import com.hawahuri.expensemanager.response.UserResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -18,4 +19,5 @@ public interface TransactionAPI {
     //    get user transactions
     @GET("transactions/users/{creator}")
     Call<TransactionResponse> getMyTransactions(@Path("creator") String creator);
+
 }

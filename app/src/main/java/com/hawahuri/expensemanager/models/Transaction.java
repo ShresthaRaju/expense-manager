@@ -1,24 +1,29 @@
 package com.hawahuri.expensemanager.models;
 
 public class Transaction {
-    private String memo, type, category, creator, date;
+    private String memo, type, creator, date;
     private double amount;
+    private Category category;
 
-    public Transaction(String memo, String type, String category, String creator, String date) {
+    public Transaction(String memo, String type, String creator, String date, double amount, Category category) {
         this.memo = memo;
         this.type = type;
-        this.category = category;
-        this.creator = creator;
-        this.date = date;
-    }
-
-    public Transaction(String memo, String type, String category, String creator, String date, double amount) {
-        this.memo = memo;
-        this.type = type;
-        this.category = category;
         this.creator = creator;
         this.date = date;
         this.amount = amount;
+        this.category = category;
+    }
+
+    public Transaction(String memo, String type, String creator, String date, Category category) {
+        this.memo = memo;
+        this.type = type;
+        this.creator = creator;
+        this.date = date;
+        this.category = category;
+    }
+
+    public Category getCategory() {
+        return category;
     }
 
     public String getMemo() {
@@ -27,10 +32,6 @@ public class Transaction {
 
     public String getType() {
         return type;
-    }
-
-    public String getCategory() {
-        return category;
     }
 
     public String getCreator() {

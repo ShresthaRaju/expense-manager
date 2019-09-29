@@ -7,19 +7,20 @@
 
 
     <androidx.cardview.widget.CardView
-        android:layout_width="0dp"
-        android:layout_height="80dp"
+        android:id="@+id/transaction_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
         app:cardCornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.08"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:id="@+id/transaction_list">
+        app:layout_constraintVertical_bias="0.13999999">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -27,18 +28,19 @@
 
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/tv_trans_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="32dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="320dp"
+                android:layout_marginEnd="24dp"
                 android:layout_marginBottom="8dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
                 android:text="@string/income"
+                android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/view"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0" />
@@ -50,27 +52,29 @@
                 android:background="@android:color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.35" />
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/tv_trans_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="24dp"
                 android:text="@string/date"
                 android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/view"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/textView2"
+                app:layout_constraintStart_toEndOf="@+id/tv_trans_type"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0" />
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/circleImageView"
+                android:id="@+id/iv_trans_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -82,40 +86,40 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/view"
-                app:layout_constraintVertical_bias="0.0">
+                app:layout_constraintVertical_bias="0.342">
 
             </de.hdodenhof.circleimageview.CircleImageView>
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/tv_trans_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:text="@string/salary"
-                android:textStyle="bold"
                 android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/circleImageView"
+                app:layout_constraintStart_toEndOf="@+id/iv_trans_icon"
                 app:layout_constraintTop_toBottomOf="@+id/view" />
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/tv_trans_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:text="Rs.100000"
                 android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
-                android:textStyle="bold"
                 android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.34"
-                app:layout_constraintStart_toEndOf="@+id/textView4"
+                app:layout_constraintStart_toEndOf="@+id/tv_trans_category"
                 app:layout_constraintTop_toBottomOf="@+id/view" />
 
             <ImageView
@@ -130,21 +134,21 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/textView5"
-                app:layout_constraintTop_toTopOf="@+id/textView5"
+                app:layout_constraintStart_toEndOf="@+id/tv_trans_amount"
+                app:layout_constraintTop_toTopOf="@+id/tv_trans_amount"
                 app:layout_constraintVertical_bias="1.0" />
 
             <ImageView
+                android:id="@+id/edit_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:id="@+id/edit_image"
                 android:src="@drawable/ic_edit_black_24dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/imageView"
                 app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/textView5"
-                app:layout_constraintTop_toTopOf="@+id/textView5" />
+                app:layout_constraintStart_toEndOf="@+id/tv_trans_amount"
+                app:layout_constraintTop_toTopOf="@+id/tv_trans_amount" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

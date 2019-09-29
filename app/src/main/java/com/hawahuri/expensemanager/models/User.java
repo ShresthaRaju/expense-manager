@@ -3,6 +3,7 @@ package com.hawahuri.expensemanager.models;
 public class User {
 
     private String _id, firstName, familyName, email, password;
+    private double totalIncome,totalExpense;
 
     public User(String firstName, String familyName, String email, String password) {
         this.firstName = firstName;
@@ -29,5 +30,13 @@ public class User {
 
     public String getPassword() {
         return password;
+    }
+
+    public double getTotalIncome() {
+        return totalIncome;
+    }
+
+    public double getTotalExpense() {
+        return totalExpense;
     }
 }

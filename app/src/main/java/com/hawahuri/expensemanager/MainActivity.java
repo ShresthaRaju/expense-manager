@@ -1,11 +1,14 @@
 package com.hawahuri.expensemanager;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.gauravk.bubblenavigation.BubbleNavigationConstraintView;
 import com.gauravk.bubblenavigation.listener.BubbleNavigationChangeListener;
@@ -14,19 +17,33 @@ import com.hawahuri.expensemanager.fragments.AllCategoriesFragment;
 import com.hawahuri.expensemanager.fragments.ChartFragment;
 import com.hawahuri.expensemanager.fragments.HomeFragment;
 import com.hawahuri.expensemanager.fragments.ProfileFragment;
+import com.hawahuri.expensemanager.impl.TransactionImpl;
+import com.hawahuri.expensemanager.models.Transaction;
 import com.hawahuri.expensemanager.ui.NewTransactionActivity;
+import com.hawahuri.expensemanager.utils.Helper;
+import com.hawahuri.expensemanager.utils.UserSession;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements BubbleNavigationChangeListener {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         BubbleNavigationConstraintView navigationView = findViewById(R.id.bottom_navigation);
         navigationView.setNavigationChangeListener(this);
 
         loadFragment(HomeFragment.newInstance("Dashboard"));
+
+
+
+
+
     }
 
     public void newTransaction(View view) {
@@ -34,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements BubbleNavigationC
         startActivity(new Intent(this, NewTransactionActivity.class));
 
     }
+
 
     private void loadFragment(Fragment activeFragment) {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, activeFragment).commit();
@@ -66,4 +84,5 @@ public class MainActivity extends AppCompatActivity implements BubbleNavigationC
 
         loadFragment(activeFragment);
     }
+
 }

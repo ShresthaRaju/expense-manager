@@ -6,10 +6,13 @@ import com.hawahuri.expensemanager.api.TransactionAPI;
 import com.hawahuri.expensemanager.models.Error;
 import com.hawahuri.expensemanager.models.Transaction;
 import com.hawahuri.expensemanager.response.TransactionResponse;
+import com.hawahuri.expensemanager.response.UserResponse;
 import com.hawahuri.expensemanager.utils.APIError;
 import com.hawahuri.expensemanager.utils.RetrofitClient;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -45,7 +48,23 @@ public class TransactionImpl {
         return transactionResponse;
     }
 
-    public TransactionResponse getMyTransactions(String creator) {
+//    public List<Transaction> getTransactions(String creator) {
+//        List<Transaction> transactionResponse = new ArrayList<>();
+//        Call<TransactionResponse> myTransactionsCall = transactionAPI.getTransactions(creator);
+//        try {
+//            Response<TransactionResponse> myTransactionsResponse = myTransactionsCall.execute();
+//            if (!myTransactionsResponse.isSuccessful()) {
+//
+//                return transactionResponse;
+//            }
+//            transactionResponse = myTransactionsResponse.body().getTransactions();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return transactionResponse;
+//    }
+
+    public TransactionResponse getTransactions(String creator) {
         TransactionResponse transactionResponse = null;
         Call<TransactionResponse> myTransactionsCall = transactionAPI.getMyTransactions(creator);
         try {
@@ -59,7 +78,6 @@ public class TransactionImpl {
         }
         return transactionResponse;
     }
-
 
     public interface TransactionListener {
         void onError(Error error);
