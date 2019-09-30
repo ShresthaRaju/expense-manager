@@ -8,20 +8,46 @@
     android:orientation="vertical"
     tools:context="ui.NewTransactionActivity">
 
+    <Button
+        android:id="@+id/tab_expense"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:background="@color/colorWhite"
+        android:text="@string/expense"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tab_income"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/transaction_toolbar"
+        app:layout_constraintVertical_bias="0.0">
+
+    </Button>
+
+    <Button
+        android:id="@+id/tab_income"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:background="@color/colorWhite"
+        android:text="@string/income"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tab_expense"
+        app:layout_constraintTop_toBottomOf="@+id/transaction_toolbar"
+        app:layout_constraintVertical_bias="0.0"></Button>
+
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        app:cardCornerRadius="10dp"
+        app:cardCornerRadius="7dp"
+        app:cardElevation="7dp"
+        app:contentPadding="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/transaction_toolbar"
-        app:layout_constraintVertical_bias="0.24">
+        app:layout_constraintTop_toBottomOf="@id/tab_expense">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -34,40 +60,25 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="24dp"
-                android:layout_marginBottom="24dp"
+                android:layout_marginBottom="16dp"
                 android:background="@drawable/btn_get_started"
                 android:text="@string/btn_add"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
                 android:textColor="#fff"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/calendar"
-                app:layout_constraintTop_toBottomOf="@+id/et_amount"
-                app:layout_constraintVertical_bias="0.0" />
-
-            <ImageButton
-                android:id="@+id/calendar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginEnd="24dp"
-                android:background="?android:attr/selectableItemBackground"
-                android:contentDescription="@string/calendar"
-                android:src="@drawable/ic_calendar"
-                app:layout_constraintBottom_toBottomOf="@id/btn_add"
-                app:layout_constraintEnd_toStartOf="@id/btn_add"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/btn_add"></ImageButton>
+                app:layout_constraintTop_toBottomOf="@+id/et_date"
+                app:layout_constraintVertical_bias="0.0" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/et_amount"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="24dp"
-                android:layout_marginBottom="24dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
                 android:theme="@style/TextInputStyle"
                 app:errorEnabled="true"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -81,9 +92,39 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:drawableStart="@drawable/ic_money"
-                    android:gravity="center"
+                    android:drawablePadding="16dp"
                     android:hint="@string/amount_hint"
                     android:inputType="numberDecimal"
+                    android:maxLines="1"
+                    android:textColorHint="#00efd1" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/et_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:theme="@style/TextInputStyle"
+                app:errorEnabled="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/et_amount"
+                app:layout_constraintVertical_bias="0.0">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_date_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:drawableStart="@drawable/ic_calendar"
+                    android:drawablePadding="16dp"
+                    android:focusable="false"
+                    android:hint="@string/select_date"
+                    android:inputType="date"
                     android:maxLines="1"
                     android:textColorHint="#00efd1" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -92,10 +133,10 @@
                 android:id="@+id/et_memo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="24dp"
-                android:layout_marginBottom="24dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
                 android:theme="@style/TextInputStyle"
                 app:errorEnabled="true"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -103,16 +144,17 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.159">
+                app:layout_constraintVertical_bias="0.16">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_memo_value"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:drawableStart="@drawable/ic_note"
-                    android:gravity="center"
+                    android:drawablePadding="16dp"
                     android:hint="@string/memo_hint"
                     android:inputType="text"
+                    android:maxLines="1"
                     android:textColorHint="#00efd1" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -120,17 +162,18 @@
 
     </androidx.cardview.widget.CardView>
 
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/category_icon"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:background="@drawable/bg_icon"
-        android:elevation="4dp"
-        android:src="@drawable/app_logo"
-        app:layout_constraintBottom_toTopOf="@+id/cardView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/cardView"
-        app:layout_constraintTop_toTopOf="@+id/cardView">
+        android:elevation="9dp"
+        android:src="@drawable/ic_more"
+        app:layout_constraintBottom_toTopOf="@id/cardView"
+        app:layout_constraintEnd_toEndOf="@id/cardView"
+        app:layout_constraintStart_toStartOf="@id/cardView"
+        app:layout_constraintTop_toTopOf="@id/cardView">
 
     </de.hdodenhof.circleimageview.CircleImageView>
 

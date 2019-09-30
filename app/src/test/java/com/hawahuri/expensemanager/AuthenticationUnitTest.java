@@ -4,12 +4,16 @@ import com.hawahuri.expensemanager.impl.AuthImpl;
 import com.hawahuri.expensemanager.models.User;
 
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertNull;
 import static junit.framework.TestCase.assertTrue;
+
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 
 public class AuthenticationUnitTest {
     private AuthImpl authImpl;
@@ -22,29 +26,29 @@ public class AuthenticationUnitTest {
     // Sign Up Test
 
     @Test
-    public void testSignUp_ValidDetails_ShouldCreateANewUser() {
-        User user = new User("Test", "Test", "test@example.com", "password");
+    public void testA_emptySignUpInput_shouldNotCreateANewUser() {
+        User user = new User("", "Test", "unittest@example.com", "password");
+        boolean signedUp = authImpl.registerUser(user);
+        assertFalse(signedUp);
+    }
+
+    @Test
+    public void testB_invalidSignUpInputs_shouldNotCreateANewUser() {
+        User user = new User("U", "Test", "unittest@example.com", "password");
+        boolean signedUp = authImpl.registerUser(user);
+        assertFalse(signedUp);
+    }
+
+    @Test
+    public void testC_validSignUpInputs_shouldCreateANewUser() {
+        User user = new User("Unit", "Test", "unittest@example.com", "password");
         boolean signedUp = authImpl.registerUser(user);
         assertTrue(signedUp);
     }
 
     @Test
-    public void testSignUp_EmptyField_ShouldNotCreateANewUser() {
-        User user = new User("", "Test", "test@example.com", "password");
-        boolean signedUp = authImpl.registerUser(user);
-        assertFalse(signedUp);
-    }
-
-    @Test
-    public void testSignUp_InvalidDetails_ShouldNotCreateANewUser() {
-        User user = new User("T", "Test", "test@example.com", "password");
-        boolean signedUp = authImpl.registerUser(user);
-        assertFalse(signedUp);
-    }
-
-    @Test
-    public void testSignUp_ExistingEmail_ShouldNotCreateANewUser() {
-        User user = new User("New", "User", "test@example.com", "password");
+    public void testD_existingEmail_shouldNotCreateANewUser() {
+        User user = new User("New", "Test", "unittest@example.com", "password");
         boolean signedUp = authImpl.registerUser(user);
         assertFalse(signedUp);
     }
@@ -52,15 +56,7 @@ public class AuthenticationUnitTest {
     // Sign In Test
 
     @Test
-    public void testSignIn_ValidDetails_ShouldReturnAuthUser() {
-
-        User authUser = authImpl.loginUser("test@example.com", "password");
-
-        assertEquals("test@example.com", authUser.getEmail());
-    }
-
-    @Test
-    public void testSignIn_EmptyField_ShouldDenyLogin() {
+    public void testE_emptySignInInputs_shouldDenyLogin() {
 
         User authUser = authImpl.loginUser("", "password");
 
@@ -68,11 +64,19 @@ public class AuthenticationUnitTest {
     }
 
     @Test
-    public void testSignIn_InvalidDetails_ShouldDenyLogin() {
+    public void testF_invalidSignInInputs_shouldDenyLogin() {
 
-        User authUser = authImpl.loginUser("rest@example.com", "password");
+        User authUser = authImpl.loginUser("unittest@example.com", "passwords");
 
         assertNull(authUser);
+    }
+
+    @Test
+    public void testG_validSignInInputs_shouldReturnAuthUser() {
+
+        User authUser = authImpl.loginUser("unittest@example.com", "password");
+
+        assertEquals("unittest@example.com", authUser.getEmail());
     }
 
 }

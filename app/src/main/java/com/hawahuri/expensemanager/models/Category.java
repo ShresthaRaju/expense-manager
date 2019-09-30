@@ -2,13 +2,17 @@ package com.hawahuri.expensemanager.models;
 
 public class Category {
 
-    private String name, type, icon, creator;
+    private String _id,name, type, icon, creator;
 
     public Category(String name, String type, String icon, String creator) {
         this.name = name;
         this.type = type;
         this.icon = icon;
         this.creator = creator;
+    }
+
+    public String get_id() {
+        return _id;
     }
 
     public String getName() {
