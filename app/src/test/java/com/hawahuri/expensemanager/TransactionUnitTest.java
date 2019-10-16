@@ -10,7 +10,9 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertNull;
+import static junit.framework.TestCase.assertTrue;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 
@@ -90,6 +92,36 @@ public class TransactionUnitTest {
     public void testJ_transactionSize() {
         TransactionResponse transactionResponse = transactionImpl.getTransactions("5d879975de6f522844aa111e");
         assertEquals(2, transactionResponse.getMyTransactions().size());
+    }
+
+    @Test
+    public void testK_validId_shouldUpdateTransaction() {
+        String transactionId = "5d879975de6f522844aa111e";
+        Transaction newTransaction = new Transaction("Trans Update Test", "Expense", "2019-10-08", 1000);
+        TransactionResponse updateTransactionResponse = transactionImpl.updateTransaction(transactionId, newTransaction);
+        assertEquals("Trans Update Test", updateTransactionResponse.getTransaction().getMemo());
+    }
+
+    @Test
+    public void testL_invalidId_shouldReturnNull() {
+        String transactionId = "5d879975de6f522844aa111e";
+        Transaction newTransaction = new Transaction("Trans Update Test", "Expense", "2019-10-08", 1000);
+        TransactionResponse updateTransactionResponse = transactionImpl.updateTransaction(transactionId, newTransaction);
+        assertNull(updateTransactionResponse.getTransaction());
+    }
+
+    @Test
+    public void testM_validId_shouldDeleteTransaction() {
+        String transactionId = "5d879975de6f522844aa111e";
+        boolean transactionDeleted = transactionImpl.deleteTransaction(transactionId);
+        assertTrue(transactionDeleted);
+    }
+
+    @Test
+    public void testN_invalidId_shouldReturnFalse() {
+        String transactionId = "5d879975de6f522844aa111e";
+        boolean transactionDeleted = transactionImpl.deleteTransaction(transactionId);
+        assertFalse(transactionDeleted);
     }
 
 }

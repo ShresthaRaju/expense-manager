@@ -60,6 +60,43 @@ public class TransactionImpl {
         return transactionResponse;
     }
 
+    public TransactionResponse updateTransaction(String transactionId, Transaction transaction) {
+        TransactionResponse transactionResponse = null;
+        Call<TransactionResponse> updateTransactionCall = transactionAPI.updateTransaction(transactionId, transaction);
+        try {
+            Response<TransactionResponse> updateTransactionResponse = updateTransactionCall.execute();
+            if (!updateTransactionResponse.isSuccessful()) {
+                apiError = gson.fromJson(updateTransactionResponse.errorBody().string(), APIError.class);
+                transactionListener.onError(apiError.getError());
+//                return transactionResponse;
+            }
+            if (updateTransactionResponse.body().getTransaction() != null) {
+                transactionResponse = updateTransactionResponse.body();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return transactionResponse;
+    }
+
+    public boolean deleteTransaction(String transactionId) {
+        boolean transactionDeleted = false;
+        Call<TransactionResponse> deleteTransactionCall = transactionAPI.deleteTransaction(transactionId);
+        try {
+            Response<TransactionResponse> deleteTransactionResponse = deleteTransactionCall.execute();
+            if (!deleteTransactionResponse.isSuccessful()) {
+                return transactionDeleted;
+            }
+            if (deleteTransactionResponse.body().getTransaction() != null) {
+                transactionDeleted = true;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return transactionDeleted;
+    }
+
+
     public interface TransactionListener {
         void onError(Error error);
     }

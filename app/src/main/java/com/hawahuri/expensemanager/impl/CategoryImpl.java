@@ -96,6 +96,42 @@ public class CategoryImpl {
         return userCategories;
     }
 
+    public Category updateUserCategory(String categoryId, String categoryName) {
+        Category updatedCategory = null;
+        Call<CategoryResponse> updateCategoryCall = categoryAPI.updateCategory(categoryId, categoryName);
+        try {
+            Response<CategoryResponse> updateCategoryResponse = updateCategoryCall.execute();
+            if (!updateCategoryResponse.isSuccessful()) {
+                apiError = gson.fromJson(updateCategoryResponse.errorBody().string(), APIError.class);
+                categoryListener.onError(apiError.getError());
+//                return updatedCategory;
+            }
+            if (updateCategoryResponse.body().getCategory() != null) {
+                updatedCategory = updateCategoryResponse.body().getCategory();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return updatedCategory;
+    }
+
+    public boolean deleteUserCategory(String categoryId) {
+        boolean categoryDeleted = false;
+        Call<CategoryResponse> deleteCategoryCall = categoryAPI.deleteCategory(categoryId);
+        try {
+            Response<CategoryResponse> deleteCategoryResponse = deleteCategoryCall.execute();
+            if (!deleteCategoryResponse.isSuccessful()) {
+                return categoryDeleted;
+            }
+            if (deleteCategoryResponse.body().getCategory() != null) {
+                categoryDeleted = true;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return categoryDeleted;
+    }
+
     public interface CategoryListener {
         void onError(Error error);
     }

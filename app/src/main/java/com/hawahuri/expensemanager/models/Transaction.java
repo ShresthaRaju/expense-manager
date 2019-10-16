@@ -20,4 +20,11 @@ public class Transaction {
         this.date = date;
         this.category = category;
     }
+
+    public Transaction(String memo, String type, String date, double amount) {
+        this.memo = memo;
+        this.type = type;
+        this.date = date;
+        this.amount = amount;
+    }
 }
