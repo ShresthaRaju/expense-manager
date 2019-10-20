@@ -21,6 +21,10 @@ public interface TransactionAPI {
     @GET("transactions/users/{creator}")
     Call<TransactionResponse> getMyTransactions(@Path("creator") String creator);
 
+    // get single transaction
+    @GET("transactions/{id}")
+    Call<TransactionResponse> fetchSingleTransaction(@Path("id") String transactionId);
+
     // update a transaction
     @PUT("transactions/{id}")
     Call<TransactionResponse> updateTransaction(@Path("id") String transactionId, @Body Transaction transaction);

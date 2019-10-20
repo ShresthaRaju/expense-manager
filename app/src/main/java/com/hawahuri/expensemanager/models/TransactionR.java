@@ -1,9 +1,15 @@
 package com.hawahuri.expensemanager.models;
 
-public class TransactionR {
-    private String memo, type, creator, date;
+import java.io.Serializable;
+
+public class TransactionR implements Serializable {
+    private String _id,memo, type, creator, date;
     private double amount;
     private Category category;
+
+    public String get_id() {
+        return _id;
+    }
 
     public Category getCategory() {
         return category;

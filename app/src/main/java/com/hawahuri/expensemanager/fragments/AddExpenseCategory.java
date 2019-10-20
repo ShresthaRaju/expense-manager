@@ -109,10 +109,10 @@ public class AddExpenseCategory extends Fragment implements CategoryIconsAdapter
         });
     }
 
-
     @Override
     public void onIconSelected(String iconName) {
         icon = iconName;
         Helper.setIcon(iconName, imgExpCat);
     }
+
 }

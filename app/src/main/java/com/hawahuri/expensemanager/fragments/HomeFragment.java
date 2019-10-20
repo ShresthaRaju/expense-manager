@@ -1,6 +1,5 @@
 package com.hawahuri.expensemanager.fragments;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,7 +9,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,6 +16,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.hawahuri.expensemanager.MainActivity;
 import com.hawahuri.expensemanager.R;
@@ -27,6 +26,7 @@ import com.hawahuri.expensemanager.impl.TransactionImpl;
 import com.hawahuri.expensemanager.models.TransactionR;
 import com.hawahuri.expensemanager.response.TransactionResponse;
 import com.hawahuri.expensemanager.response.UserResponse;
+import com.hawahuri.expensemanager.ui.RecordTransactionActivity;
 import com.hawahuri.expensemanager.ui.SignInActivity;
 import com.hawahuri.expensemanager.utils.Helper;
 import com.hawahuri.expensemanager.utils.UserSession;
@@ -34,12 +34,13 @@ import com.hawahuri.expensemanager.utils.UserSession;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragment extends Fragment {
-    private RecyclerView transactionsContainer;
+public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private TransactionAdapter transactionAdapter;
     private List<TransactionR> userTransactions;
     private TransactionImpl transactionImpl;
     private UserSession userSession;
-    private TextView incomeValue, expenseValue, balance;
+    private TextView incomeValue, expenseValue, balance, tvNoTransactions, tvRecord;
 
     private static final String ARG_PARAM1 = "param1";
 
@@ -71,12 +72,29 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View dashboardView = inflater.inflate(R.layout.fragment_home, container, false);
+        userTransactions = new ArrayList<>();
+
+        swipeRefreshLayout = dashboardView.findViewById(R.id.home_refresh);
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorSignInAccent));
+        swipeRefreshLayout.setOnRefreshListener(this);
         initToolbar(dashboardView);
-        transactionsContainer = dashboardView.findViewById(R.id.main_recyclerview);
+        RecyclerView transactionsContainer = dashboardView.findViewById(R.id.main_recyclerview);
         transactionsContainer.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        transactionAdapter = new TransactionAdapter(getActivity(), userTransactions);
+        transactionsContainer.setAdapter(transactionAdapter);
+
         incomeValue = dashboardView.findViewById(R.id.tv_income_value);
         expenseValue = dashboardView.findViewById(R.id.tv_expense_value);
         balance = dashboardView.findViewById(R.id.tv_balance_value);
+        tvNoTransactions = dashboardView.findViewById(R.id.tv_no_trans);
+        tvRecord = dashboardView.findViewById(R.id.tv_record);
+        tvRecord.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), RecordTransactionActivity.class));
+            }
+        });
 
         return dashboardView;
     }
@@ -85,7 +103,6 @@ public class HomeFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         userSession = new UserSession(getActivity());
-        userTransactions = new ArrayList<>();
         transactionImpl = new TransactionImpl();
     }
 
@@ -109,15 +126,22 @@ public class HomeFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    public void showTransaction() {
+    public void showTransactions() {
+        userTransactions.clear();
         Helper.StrictMode();
+        swipeRefreshLayout.setRefreshing(true);
         TransactionResponse transactionResponse = transactionImpl.getTransactions(userSession.getUser().get_id());
         if (transactionResponse == null) {
-            Toast.makeText(getActivity(), "No transaction", Toast.LENGTH_SHORT).show();
+            transactionAdapter.updateTransactionsList(userTransactions);
+            swipeRefreshLayout.setRefreshing(false);
+            tvNoTransactions.setVisibility(View.VISIBLE);
+            tvRecord.setVisibility(View.VISIBLE);
         } else {
-            userTransactions = transactionResponse.getMyTransactions();
-            TransactionAdapter transactionAdapter = new TransactionAdapter(getActivity(), userTransactions);
-            transactionsContainer.setAdapter(transactionAdapter);
+            swipeRefreshLayout.setRefreshing(false);
+            tvNoTransactions.setVisibility(View.GONE);
+            tvRecord.setVisibility(View.GONE);
+            userTransactions.addAll(transactionResponse.getMyTransactions());
+            transactionAdapter.updateTransactionsList(userTransactions);
         }
     }
 
@@ -135,7 +159,13 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        showTransaction();
         showIncomeExpense();
+        showTransactions();
+    }
+
+    @Override
+    public void onRefresh() {
+        showIncomeExpense();
+        showTransactions();
     }
 }

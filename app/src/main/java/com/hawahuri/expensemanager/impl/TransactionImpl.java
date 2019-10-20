@@ -60,6 +60,21 @@ public class TransactionImpl {
         return transactionResponse;
     }
 
+    public TransactionResponse getSingleTransaction(String transactionId) {
+        TransactionResponse transactionResponse = null;
+        Call<TransactionResponse> singleTransactionCall = transactionAPI.fetchSingleTransaction(transactionId);
+        try {
+            Response<TransactionResponse> singleTransactionsResponse = singleTransactionCall.execute();
+            if (!singleTransactionsResponse.isSuccessful()) {
+                return transactionResponse;
+            }
+            transactionResponse = singleTransactionsResponse.body();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return transactionResponse;
+    }
+
     public TransactionResponse updateTransaction(String transactionId, Transaction transaction) {
         TransactionResponse transactionResponse = null;
         Call<TransactionResponse> updateTransactionCall = transactionAPI.updateTransaction(transactionId, transaction);
@@ -87,7 +102,7 @@ public class TransactionImpl {
             if (!deleteTransactionResponse.isSuccessful()) {
                 return transactionDeleted;
             }
-            if (deleteTransactionResponse.body().getTransaction() != null) {
+            if (deleteTransactionResponse.body() != null) {
                 transactionDeleted = true;
             }
         } catch (IOException e) {

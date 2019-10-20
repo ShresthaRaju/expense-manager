@@ -1,8 +1,10 @@
 package com.hawahuri.expensemanager.models;
 
-public class Category {
+import java.io.Serializable;
 
-    private String _id,name, type, icon, creator;
+public class Category implements Serializable {
+
+    private String _id, name, type, icon, creator;
 
     public Category(String name, String type, String icon, String creator) {
         this.name = name;

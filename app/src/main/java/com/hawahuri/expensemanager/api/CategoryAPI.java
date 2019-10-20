@@ -6,8 +6,6 @@ import com.hawahuri.expensemanager.response.CategoryResponse;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -31,10 +29,13 @@ public interface CategoryAPI {
     @GET("categories/users/{userId}")
     Call<CategoryResponse> fetchUserCategories(@Path("userId") String userId);
 
+    // get a single category
+    @GET("categories/{id}")
+    Call<CategoryResponse> fetchSingleCategory(@Path("id") String categoryId);
+
     // update a category
-    @FormUrlEncoded
     @PUT("categories/{id}")
-    Call<CategoryResponse> updateCategory(@Path("id") String categoryId, @Field("name") String categoryName);
+    Call<CategoryResponse> updateCategory(@Path("id") String categoryId, @Body Category category);
 
     // delete a category
     @DELETE("categories/{id}")

@@ -45,7 +45,7 @@
     <string name="memo_hint">Memo</string>
     <string name="amount_hint">Amount</string>
     <string name="select_date">Date</string>
-    <string name="btn_add">Add</string>
+    <string name="btn_add">Save</string>
 
     <!--    Nav items-->
     <string name="welcome">Welcome to Expense Manager!</string>
@@ -54,5 +54,18 @@
     <string name="about">About App</string>
     <string name="sign_out">Sign Out</string>
 
+    <!--    Update Category/Transaction-->
+    <string name="update">Update</string>
+    <string name="name_of_item">Transportation</string>
+    <string name="edit_transaction">Edit Transaction</string>
+    <string name="transaction_type">Type:</string>
+    <string name="amount">Amount:</string>
+    <string name="_7000">7000</string>
+    <string name="dt_date">Date:</string>
+    <string name="dt_memo">Memo:</string>
+    <string name="memo">Some memo</string>
+    <string name="dt_date_value">10/18/2019</string>
+    <string name="no_transaction">No Transaction Yet!</string>
+    <string name="record_one">Record one now</string>
 
 </resources>

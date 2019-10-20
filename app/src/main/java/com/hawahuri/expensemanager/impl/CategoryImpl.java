@@ -96,23 +96,40 @@ public class CategoryImpl {
         return userCategories;
     }
 
-    public Category updateUserCategory(String categoryId, String categoryName) {
-        Category updatedCategory = null;
-        Call<CategoryResponse> updateCategoryCall = categoryAPI.updateCategory(categoryId, categoryName);
+    public Category getSingleCategory(String categoryId) {
+        Category category = null;
+        Call<CategoryResponse> getACategoryCall = categoryAPI.fetchSingleCategory(categoryId);
+        try {
+            Response<CategoryResponse> getCategoryResponse = getACategoryCall.execute();
+            if (!getCategoryResponse.isSuccessful()) {
+                return category;
+            }
+            if (getCategoryResponse.body().getCategory() != null) {
+                category = getCategoryResponse.body().getCategory();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return category;
+    }
+
+    public CategoryResponse updateUserCategory(String categoryId, Category category) {
+        CategoryResponse categoryResponse = null;
+        Call<CategoryResponse> updateCategoryCall = categoryAPI.updateCategory(categoryId, category);
         try {
             Response<CategoryResponse> updateCategoryResponse = updateCategoryCall.execute();
             if (!updateCategoryResponse.isSuccessful()) {
                 apiError = gson.fromJson(updateCategoryResponse.errorBody().string(), APIError.class);
                 categoryListener.onError(apiError.getError());
-//                return updatedCategory;
+//                return categoryResponse;
             }
-            if (updateCategoryResponse.body().getCategory() != null) {
-                updatedCategory = updateCategoryResponse.body().getCategory();
+            if (updateCategoryResponse.body() != null) {
+                categoryResponse = updateCategoryResponse.body();
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return updatedCategory;
+        return categoryResponse;
     }
 
     public boolean deleteUserCategory(String categoryId) {

@@ -1,6 +1,7 @@
 package com.hawahuri.expensemanager.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.hawahuri.expensemanager.R;
 import com.hawahuri.expensemanager.models.TransactionR;
+import com.hawahuri.expensemanager.ui.TransactionDetailsActivity;
 import com.hawahuri.expensemanager.utils.Helper;
 
 import java.util.List;
@@ -54,6 +56,15 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
             transDate = itemView.findViewById(R.id.tv_trans_date);
             transCategory = itemView.findViewById(R.id.tv_trans_category);
             transAmount = itemView.findViewById(R.id.tv_trans_amount);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent transDetails = new Intent(context, TransactionDetailsActivity.class);
+                    transDetails.putExtra("TRANSACTION_ID", transactionList.get(getAdapterPosition()).get_id());
+                    context.startActivity(transDetails);
+                }
+            });
         }
 
         public void bindData(TransactionR transaction) {
@@ -69,6 +80,11 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
             transDate.setText(Helper.formatDate("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", "MM/dd", transaction.getDate()));
             Helper.setIcon(transaction.getCategory().getIcon(), transIcon);
         }
+    }
+
+    public void updateTransactionsList(List<TransactionR> transactionList){
+        this.transactionList=transactionList;
+        notifyDataSetChanged();
     }
 
 }

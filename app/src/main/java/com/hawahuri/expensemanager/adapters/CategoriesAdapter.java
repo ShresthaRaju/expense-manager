@@ -4,12 +4,14 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.hawahuri.expensemanager.MainActivity;
 import com.hawahuri.expensemanager.R;
 import com.hawahuri.expensemanager.models.Category;
 import com.hawahuri.expensemanager.utils.Helper;
@@ -59,6 +61,23 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
             super(itemView);
             categoryIcon = itemView.findViewById(R.id.iv_icon);
             categoryName = itemView.findViewById(R.id.tv_category_name);
+            if (catDiv.equals("user")) {
+                ImageButton btnCatDelete = itemView.findViewById(R.id.btn_cat_delete);
+                btnCatDelete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ((MainActivity) context).confirmCategoryDelete(categoryList.get(getAdapterPosition()).get_id());
+                    }
+                });
+
+                ImageButton btnCatEdit = itemView.findViewById(R.id.btn_cat_edit);
+                btnCatEdit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ((MainActivity) context).showCatUpdateDialog(categoryList.get(getAdapterPosition()).get_id());
+                    }
+                });
+            }
         }
 
         public void bindData(Category category, String catDiv) {
