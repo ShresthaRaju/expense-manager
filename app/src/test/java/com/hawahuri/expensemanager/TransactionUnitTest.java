@@ -96,23 +96,23 @@ public class TransactionUnitTest {
 
     @Test
     public void testK_validId_shouldUpdateTransaction() {
-        String transactionId = "5d879975de6f522844aa111e";
-        Transaction newTransaction = new Transaction("Trans Update Test", "Expense", "2019-10-08", 1000);
+        String transactionId = "5dad0dbe2194501f788ca877";
+        Transaction newTransaction = new Transaction("Test Transaction Update", "Expense", "5da6c2393cc60c2cb021cdcb", "2019-10-08", "5dad074c8087bd0f0c88829a", 1500);
         TransactionResponse updateTransactionResponse = transactionImpl.updateTransaction(transactionId, newTransaction);
-        assertEquals("Trans Update Test", updateTransactionResponse.getTransaction().getMemo());
+        assertEquals("Test Transaction Update", updateTransactionResponse.getTransaction().getMemo());
     }
 
     @Test
     public void testL_invalidId_shouldReturnNull() {
         String transactionId = "5d879975de6f522844aa111e";
-        Transaction newTransaction = new Transaction("Trans Update Test", "Expense", "2019-10-08", 1000);
+        Transaction newTransaction = new Transaction("Test Transaction Update", "Expense", "5da6c2393cc60c2cb021cdcb", "2019-10-08", "5dad074c8087bd0f0c88829a", 1500);
         TransactionResponse updateTransactionResponse = transactionImpl.updateTransaction(transactionId, newTransaction);
-        assertNull(updateTransactionResponse.getTransaction());
+        assertNull(updateTransactionResponse);
     }
 
     @Test
     public void testM_validId_shouldDeleteTransaction() {
-        String transactionId = "5d879975de6f522844aa111e";
+        String transactionId = "5dad0dbe2194501f788ca877";
         boolean transactionDeleted = transactionImpl.deleteTransaction(transactionId);
         assertTrue(transactionDeleted);
     }

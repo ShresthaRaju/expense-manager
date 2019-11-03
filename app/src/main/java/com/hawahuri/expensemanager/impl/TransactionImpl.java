@@ -32,9 +32,9 @@ public class TransactionImpl {
         try {
             Response<TransactionResponse> addTransactionResponse = addTransactionCall.execute();
             if (!addTransactionResponse.isSuccessful()) {
-                apiError = gson.fromJson(addTransactionResponse.errorBody().string(), APIError.class);
-                transactionListener.onError(apiError.getError());
-//                return transactionResponse;
+//                apiError = gson.fromJson(addTransactionResponse.errorBody().string(), APIError.class);
+//                transactionListener.onError(apiError.getError());
+                return transactionResponse;
             } else if (addTransactionResponse.body().getTransaction() != null) {
                 transactionResponse = addTransactionResponse.body();
             }
@@ -81,9 +81,9 @@ public class TransactionImpl {
         try {
             Response<TransactionResponse> updateTransactionResponse = updateTransactionCall.execute();
             if (!updateTransactionResponse.isSuccessful()) {
-                apiError = gson.fromJson(updateTransactionResponse.errorBody().string(), APIError.class);
-                transactionListener.onError(apiError.getError());
-//                return transactionResponse;
+//                apiError = gson.fromJson(updateTransactionResponse.errorBody().string(), APIError.class);
+//                transactionListener.onError(apiError.getError());
+                return transactionResponse;
             }
             if (updateTransactionResponse.body().getTransaction() != null) {
                 transactionResponse = updateTransactionResponse.body();

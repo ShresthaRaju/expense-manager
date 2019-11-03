@@ -83,16 +83,16 @@ public class CategoriesUnitTest {
 
     @Test
     public void testI_validId_shouldUpdateCategory() {
-        String categoryId = "5da6c2393cc60c2cb021cdcb";
+        String categoryId = "5dad09f22194501f788ca86c";
         String newCategoryName = "Category Update Test";
-        Category newCategory = new Category("Category Update Test", "Expense", "others.png", "5da6c2393cc60c2cb021cdcb");
+        Category newCategory = new Category(newCategoryName, "Expense", "others.png", "5da6c2393cc60c2cb021cdcb");
         CategoryResponse updatedCategory = categoryImpl.updateUserCategory(categoryId, newCategory);
         assertEquals(newCategoryName, updatedCategory.getCategory().getName());
     }
 
     @Test
     public void testJ_invalidId_shouldReturnNull() {
-        String categoryId = "5da6c2393cc60c2cb021cdcb";
+        String categoryId = "5dad08492194501f788ca789";
         Category newCategory = new Category("Category Update Test", "Expense", "others.png", "5da6c2393cc60c2cb021cdcb");
         CategoryResponse updatedCategory = categoryImpl.updateUserCategory(categoryId, newCategory);
         assertNull(updatedCategory);
@@ -100,22 +100,30 @@ public class CategoriesUnitTest {
 
     @Test
     public void testK_emptyCatName_shouldDenyUpdate() {
-        String categoryId = "5da6c2393cc60c2cb021cdcb";
+        String categoryId = "5dad09f22194501f788ca86c";
         Category newCategory = new Category("", "Income", "others.png", "5da6c2393cc60c2cb021cdcb");
         CategoryResponse categoryResponse = categoryImpl.updateUserCategory(categoryId, newCategory);
         assertNull(categoryResponse);
     }
 
     @Test
-    public void testL_validId_shouldDeleteUserCategory() {
-        String categoryId = "5da6c2393cc60c2cb021cdcb";
+    public void testL_existingCatName_shouldDenyUpdate() {
+        String categoryId = "5dad09f22194501f788ca86c";
+        Category newCategory = new Category("Rental", "Income", "others.png", "5da6c2393cc60c2cb021cdcb");
+        CategoryResponse categoryResponse = categoryImpl.updateUserCategory(categoryId, newCategory);
+        assertNull(categoryResponse);
+    }
+
+    @Test
+    public void testM_validId_shouldDeleteUserCategory() {
+        String categoryId = "5dad09f22194501f788ca86c";
         boolean categoryDeleted = categoryImpl.deleteUserCategory(categoryId);
         assertTrue(categoryDeleted);
     }
 
     @Test
-    public void testM_invalidId_shouldReturnFalse() {
-        String categoryId = "5da6c2393cc60c2cb021cdcb";
+    public void testN_invalidId_shouldReturnFalse() {
+        String categoryId = "5dad09f22194501f788ca86c";
         boolean categoryDeleted = categoryImpl.deleteUserCategory(categoryId);
         assertFalse(categoryDeleted);
     }
