@@ -1,6 +1,5 @@
 package com.hawahuri.expensemanager.test;
 
-import android.app.Activity;
 import android.content.Intent;
 
 import androidx.test.espresso.action.ViewActions;
@@ -9,7 +8,6 @@ import androidx.test.rule.ActivityTestRule;
 
 import com.hawahuri.expensemanager.MainActivity;
 import com.hawahuri.expensemanager.R;
-import com.hawahuri.expensemanager.ui.RecordTransactionActivity;
 import com.hawahuri.expensemanager.ui.TransactionDetailsActivity;
 
 import org.junit.Rule;
@@ -20,22 +18,18 @@ import cucumber.api.java.en.Given;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.RootMatchers.withDecorView;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.not;
-import static junit.framework.TestCase.assertNotNull;
 
 public class FeatHDeleteTransactionStepdefs {
     @Rule
     private ActivityTestRule<MainActivity> mainTestRule = new ActivityTestRule<>(MainActivity.class);
     private ActivityTestRule<TransactionDetailsActivity> transDetailRule = new ActivityTestRule<>(TransactionDetailsActivity.class);
-    private ActivityTestRule<RecordTransactionActivity> recordTransRule = new ActivityTestRule<>(RecordTransactionActivity.class);
-    private Activity TransDetailActivity;
-
 
     @Before("@viewTransaction-feature")
     public void setup() {
@@ -66,8 +60,6 @@ public class FeatHDeleteTransactionStepdefs {
 
     @cucumber.api.java.en.Then("^i should see transaction deleted message$")
     public void iShouldSeeTransactionDeletedMessage() {
-
-//        onView(withText("Transaction successfully deleted!")).check(matches(isDisplayed()));
         onView(withText("Transaction successfully deleted!"))
                 .inRoot(withDecorView(not(mainTestRule.getActivity().getWindow().getDecorView()))).check(matches(isDisplayed()));
         transDetailRule.finishActivity();
@@ -84,6 +76,5 @@ public class FeatHDeleteTransactionStepdefs {
         onView(withText("Type:")).check(matches(isDisplayed()));
         onView(isRoot()).perform(ViewActions.pressBack());
     }
-
 
 }
