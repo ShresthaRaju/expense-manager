@@ -32,9 +32,9 @@ public class TransactionImpl {
         try {
             Response<TransactionResponse> addTransactionResponse = addTransactionCall.execute();
             if (!addTransactionResponse.isSuccessful()) {
-                apiError = gson.fromJson(addTransactionResponse.errorBody().string(), APIError.class);
-                transactionListener.onError(apiError.getError());
-//                return transactionResponse;
+//                apiError = gson.fromJson(addTransactionResponse.errorBody().string(), APIError.class);
+//                transactionListener.onError(apiError.getError());
+                return transactionResponse;
             } else if (addTransactionResponse.body().getTransaction() != null) {
                 transactionResponse = addTransactionResponse.body();
             }
@@ -59,6 +59,58 @@ public class TransactionImpl {
         }
         return transactionResponse;
     }
+
+    public TransactionResponse getSingleTransaction(String transactionId) {
+        TransactionResponse transactionResponse = null;
+        Call<TransactionResponse> singleTransactionCall = transactionAPI.fetchSingleTransaction(transactionId);
+        try {
+            Response<TransactionResponse> singleTransactionsResponse = singleTransactionCall.execute();
+            if (!singleTransactionsResponse.isSuccessful()) {
+                return transactionResponse;
+            }
+            transactionResponse = singleTransactionsResponse.body();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return transactionResponse;
+    }
+
+    public TransactionResponse updateTransaction(String transactionId, Transaction transaction) {
+        TransactionResponse transactionResponse = null;
+        Call<TransactionResponse> updateTransactionCall = transactionAPI.updateTransaction(transactionId, transaction);
+        try {
+            Response<TransactionResponse> updateTransactionResponse = updateTransactionCall.execute();
+            if (!updateTransactionResponse.isSuccessful()) {
+//                apiError = gson.fromJson(updateTransactionResponse.errorBody().string(), APIError.class);
+//                transactionListener.onError(apiError.getError());
+                return transactionResponse;
+            }
+            if (updateTransactionResponse.body().getTransaction() != null) {
+                transactionResponse = updateTransactionResponse.body();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return transactionResponse;
+    }
+
+    public boolean deleteTransaction(String transactionId) {
+        boolean transactionDeleted = false;
+        Call<TransactionResponse> deleteTransactionCall = transactionAPI.deleteTransaction(transactionId);
+        try {
+            Response<TransactionResponse> deleteTransactionResponse = deleteTransactionCall.execute();
+            if (!deleteTransactionResponse.isSuccessful()) {
+                return transactionDeleted;
+            }
+            if (deleteTransactionResponse.body() != null) {
+                transactionDeleted = true;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return transactionDeleted;
+    }
+
 
     public interface TransactionListener {
         void onError(Error error);

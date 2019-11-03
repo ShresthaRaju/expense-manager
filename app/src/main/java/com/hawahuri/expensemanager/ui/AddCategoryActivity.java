@@ -13,16 +13,14 @@ import com.hawahuri.expensemanager.fragments.AddExpenseCategory;
 import com.hawahuri.expensemanager.fragments.AddIncomeCategory;
 
 public class AddCategoryActivity extends AppCompatActivity {
-    private ViewPager viewPager;
-    private TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_category);
 
-        viewPager = findViewById(R.id.viewPager);
-        tabLayout = findViewById(R.id.tabLayout);
+        ViewPager viewPager = findViewById(R.id.viewPager);
+        TabLayout tabLayout = findViewById(R.id.tabLayout);
         AddCategoryAdapter addCategoryAdapter = new AddCategoryAdapter(getSupportFragmentManager());
         addCategoryAdapter.addFragment(new AddExpenseCategory(), "Expense");
         addCategoryAdapter.addFragment(new AddIncomeCategory(), "Income");
@@ -34,5 +32,6 @@ public class AddCategoryActivity extends AppCompatActivity {
         setSupportActionBar(addCategoryToolbar);
         getSupportActionBar().setTitle("Add New Category");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
     }
 }

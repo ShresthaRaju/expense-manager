@@ -96,6 +96,59 @@ public class CategoryImpl {
         return userCategories;
     }
 
+    public Category getSingleCategory(String categoryId) {
+        Category category = null;
+        Call<CategoryResponse> getACategoryCall = categoryAPI.fetchSingleCategory(categoryId);
+        try {
+            Response<CategoryResponse> getCategoryResponse = getACategoryCall.execute();
+            if (!getCategoryResponse.isSuccessful()) {
+                return category;
+            }
+            if (getCategoryResponse.body().getCategory() != null) {
+                category = getCategoryResponse.body().getCategory();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return category;
+    }
+
+    public CategoryResponse updateUserCategory(String categoryId, Category category) {
+        CategoryResponse categoryResponse = null;
+        Call<CategoryResponse> updateCategoryCall = categoryAPI.updateCategory(categoryId, category);
+        try {
+            Response<CategoryResponse> updateCategoryResponse = updateCategoryCall.execute();
+            if (!updateCategoryResponse.isSuccessful()) {
+                apiError = gson.fromJson(updateCategoryResponse.errorBody().string(), APIError.class);
+                categoryListener.onError(apiError.getError());
+//                return categoryResponse;
+            }
+            if (updateCategoryResponse.body() != null) {
+                categoryResponse = updateCategoryResponse.body();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return categoryResponse;
+    }
+
+    public boolean deleteUserCategory(String categoryId) {
+        boolean categoryDeleted = false;
+        Call<CategoryResponse> deleteCategoryCall = categoryAPI.deleteCategory(categoryId);
+        try {
+            Response<CategoryResponse> deleteCategoryResponse = deleteCategoryCall.execute();
+            if (!deleteCategoryResponse.isSuccessful()) {
+                return categoryDeleted;
+            }
+            if (deleteCategoryResponse.body().getCategory() != null) {
+                categoryDeleted = true;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return categoryDeleted;
+    }
+
     public interface CategoryListener {
         void onError(Error error);
     }

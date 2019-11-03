@@ -7,7 +7,7 @@ import androidx.test.rule.ActivityTestRule;
 
 import com.hawahuri.expensemanager.MainActivity;
 import com.hawahuri.expensemanager.R;
-import com.hawahuri.expensemanager.ui.NewTransactionActivity;
+import com.hawahuri.expensemanager.ui.RecordTransactionActivity;
 
 import org.junit.Rule;
 
@@ -33,7 +33,7 @@ public class FeatEIncTransactionStepdefs {
     @Rule
     private ActivityTestRule<MainActivity> mainTestRule = new ActivityTestRule<>(MainActivity.class);
     private Activity mainActivity;
-    private ActivityTestRule<NewTransactionActivity> transactionActivityTestRule = new ActivityTestRule<>(NewTransactionActivity.class);
+    private ActivityTestRule<RecordTransactionActivity> transactionActivityTestRule = new ActivityTestRule<>(RecordTransactionActivity.class);
 
     @Before("@incomeTransaction-feature")
     public void setup() {

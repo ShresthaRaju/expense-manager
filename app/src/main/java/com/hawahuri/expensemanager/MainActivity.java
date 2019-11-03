@@ -1,14 +1,12 @@
 package com.hawahuri.expensemanager;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.gauravk.bubblenavigation.BubbleNavigationConstraintView;
 import com.gauravk.bubblenavigation.listener.BubbleNavigationChangeListener;
@@ -17,41 +15,34 @@ import com.hawahuri.expensemanager.fragments.AllCategoriesFragment;
 import com.hawahuri.expensemanager.fragments.ChartFragment;
 import com.hawahuri.expensemanager.fragments.HomeFragment;
 import com.hawahuri.expensemanager.fragments.ProfileFragment;
-import com.hawahuri.expensemanager.impl.TransactionImpl;
-import com.hawahuri.expensemanager.models.Transaction;
-import com.hawahuri.expensemanager.ui.NewTransactionActivity;
+import com.hawahuri.expensemanager.impl.CategoryImpl;
+import com.hawahuri.expensemanager.ui.CategoryUpdateDialog;
+import com.hawahuri.expensemanager.ui.RecordTransactionActivity;
+import com.hawahuri.expensemanager.utils.ConfirmationDialog;
 import com.hawahuri.expensemanager.utils.Helper;
-import com.hawahuri.expensemanager.utils.UserSession;
 
-import java.util.ArrayList;
-import java.util.List;
+public class MainActivity extends AppCompatActivity implements BubbleNavigationChangeListener, ConfirmationDialog.ConfirmationDialogListener {
 
-public class MainActivity extends AppCompatActivity implements BubbleNavigationChangeListener {
-
+    private String categoryId = "";
+    private ConfirmationDialog confirmationDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         BubbleNavigationConstraintView navigationView = findViewById(R.id.bottom_navigation);
         navigationView.setNavigationChangeListener(this);
 
         loadFragment(HomeFragment.newInstance("Dashboard"));
 
-
-
-
-
     }
 
     public void newTransaction(View view) {
 
-        startActivity(new Intent(this, NewTransactionActivity.class));
+        startActivity(new Intent(this, RecordTransactionActivity.class));
 
     }
-
 
     private void loadFragment(Fragment activeFragment) {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, activeFragment).commit();
@@ -85,4 +76,29 @@ public class MainActivity extends AppCompatActivity implements BubbleNavigationC
         loadFragment(activeFragment);
     }
 
+    public void showCatUpdateDialog(String catId) {
+        CategoryUpdateDialog dialog = new CategoryUpdateDialog();
+        dialog.getCategory(catId);
+        dialog.show(getSupportFragmentManager(), "UPDATE CATEGORY");
+    }
+
+    public void confirmCategoryDelete(String catId) {
+        categoryId = catId;
+        confirmationDialog = new ConfirmationDialog("Delete Category?", "Are you sure you want to delete this category?");
+        confirmationDialog.show(getSupportFragmentManager(), "DET");
+    }
+
+    @Override
+    public void onSure() {
+        Helper.StrictMode();
+        if (new CategoryImpl().deleteUserCategory(categoryId)) {
+            Toast.makeText(this, "Category Deleted !", Toast.LENGTH_SHORT).show();
+            loadFragment(AllCategoriesFragment.newInstance("Categories"));
+        }
+    }
+
+    @Override
+    public void onCancel() {
+        confirmationDialog.dismiss();
+    }
 }
