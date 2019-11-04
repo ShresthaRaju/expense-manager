@@ -1,11 +1,22 @@
 package com.hawahuri.expensemanager.fragments;
 
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.github.mikephil.charting.animation.Easing;
@@ -13,29 +24,26 @@ import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.hawahuri.expensemanager.MainActivity;
 import com.hawahuri.expensemanager.R;
-import com.hawahuri.expensemanager.api.AuthAPI;
-import com.hawahuri.expensemanager.impl.AuthImpl;
 import com.hawahuri.expensemanager.impl.TransactionImpl;
-import com.hawahuri.expensemanager.models.User;
+import com.hawahuri.expensemanager.models.TransactionR;
 import com.hawahuri.expensemanager.response.TransactionResponse;
-import com.hawahuri.expensemanager.response.UserResponse;
+import com.hawahuri.expensemanager.utils.Helper;
 import com.hawahuri.expensemanager.utils.UserSession;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ChartFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private PieChart pieChart;
     private UserSession userSession;
-    private AuthImpl authImpl;
-    private UserResponse userResponse;
-
-    private TransactionResponse transactionResponse;
     private TransactionImpl transactionImpl;
-
-
+    private HashMap<String, Double> myTransactions;
 
     public ChartFragment() {
 
@@ -49,88 +57,131 @@ public class ChartFragment extends Fragment {
         return chartFragment;
     }
 
+    private void initToolbar(View view) {
+        Toolbar homeToolbar = view.findViewById(R.id.chart_toolbar);
+        ((MainActivity) getActivity()).setSupportActionBar(homeToolbar);
+        if (getArguments() != null) {
+            String toolbarTitle = getArguments().getString(ARG_PARAM1);
+            ((MainActivity) getActivity()).getSupportActionBar().setTitle(toolbarTitle);
+            setHasOptionsMenu(true);
+        }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_chart, container, false);
-        pieChart = view.findViewById(R.id.piechart_transcation);
+        initToolbar(view);
 
-        userSession = new UserSession(getActivity());
-        userResponse = new UserResponse();
-        authImpl = new AuthImpl();
-
-        transactionResponse=new TransactionResponse();
-        transactionImpl=new TransactionImpl();
-
-        Chart();
+        pieChart = view.findViewById(R.id.transactions_piechart);
         return view;
     }
 
-    public void Chart() {
-//        userResponse = authImpl.getIncomeExpense(userSession.getUser().get_id());
-//
-//        transactionResponse=transactionImpl.getTransactions(userSession.getUser().get_id());
-//
-//
-//        pieChart.setUsePercentValues(true);
-//        pieChart.getDescription().setEnabled(false);
-//        pieChart.setExtraOffsets(5, 10, 5, 5);
-//
-//        pieChart.setDragDecelerationFrictionCoef(0.95f);
-//
-//        pieChart.setDrawHoleEnabled(true);
-//        pieChart.setHoleColor(Color.WHITE);
-//        pieChart.setTransparentCircleRadius(61f);
-//
-//        ArrayList<PieEntry> pieChartArrayList = new ArrayList<>();
-////        float income = Float.valueOf(String.valueOf(userResponse.getUser().getTotalIncome()));
-////        float expense = Float.valueOf(String.valueOf(userResponse.getUser().getTotalExpense()));
-////        float fexpense = Float.valueOf(String.valueOf(transactionResponse.getTransaction().getAmount()));
-//        String sexpense= transactionResponse.getMyTransactions().toString();
-//        pieChartArrayList.add(new PieEntry(250, sexpense));
-//        pieChart.animateY(1000, Easing.EaseInOutCubic);
-//
-//        PieDataSet pieDataSet = new PieDataSet(pieChartArrayList, "Transactions");
-//        pieDataSet.setSliceSpace(3f);
-//        pieDataSet.setSelectionShift(5f);
-//        pieDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
-//
-//        PieData pieData = new PieData(pieDataSet);
-//        pieData.setValueTextSize(10f);
-//        pieData.setValueTextColor(Color.YELLOW);
-//
-//        pieChart.setData(pieData);
-
-        userResponse = authImpl.getIncomeExpense(userSession.getUser().get_id());
+    public void drawChart() {
 
         pieChart.setUsePercentValues(true);
         pieChart.getDescription().setEnabled(false);
         pieChart.setExtraOffsets(5, 10, 5, 5);
-
         pieChart.setDragDecelerationFrictionCoef(0.95f);
-
         pieChart.setDrawHoleEnabled(true);
         pieChart.setHoleColor(Color.WHITE);
         pieChart.setTransparentCircleRadius(61f);
 
         ArrayList<PieEntry> pieChartArrayList = new ArrayList<>();
-        float income = Float.valueOf(String.valueOf(userResponse.getUser().getTotalIncome()));
-        float expense = Float.valueOf(String.valueOf(userResponse.getUser().getTotalExpense()));
-        pieChartArrayList.add(new PieEntry(income, "Income"));
-        pieChartArrayList.add(new PieEntry(expense, "Expense"));
+        for (Map.Entry<String, Double> entry : myTransactions.entrySet()) {
+            pieChartArrayList.add(new PieEntry(entry.getValue().floatValue(), entry.getKey()));
+        }
 
-        pieChart.animateY(1000, Easing.EaseInOutCubic);
+        pieChart.animateY(1400, Easing.EaseInCirc);
 
-        PieDataSet pieDataSet = new PieDataSet(pieChartArrayList, "Transactions");
+        PieDataSet pieDataSet = new PieDataSet(pieChartArrayList, "My Transactions");
         pieDataSet.setSliceSpace(3f);
         pieDataSet.setSelectionShift(5f);
         pieDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
 
         PieData pieData = new PieData(pieDataSet);
-        pieData.setValueTextSize(10f);
-        pieData.setValueTextColor(Color.YELLOW);
+        pieData.setValueFormatter(new PercentFormatter(pieChart));
+        pieData.setValueTextSize(15f);
+        pieData.setValueTypeface(Typeface.DEFAULT_BOLD);
+        pieData.setValueTextColor(Color.WHITE);
 
         pieChart.setData(pieData);
+        pieChart.invalidate();
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        userSession = new UserSession(getActivity());
+        transactionImpl = new TransactionImpl();
+        myTransactions = new HashMap<>();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_chart, menu);
+
+        MenuItem menuItem = menu.findItem(R.id.sp_trans_type);
+        Spinner spinner = (Spinner) menuItem.getActionView();
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
+                R.array.transactions_type, R.layout.spinner_trans_type);
+        adapter.setDropDownViewResource(R.layout.spinner_trans_type);
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String transType = String.valueOf(parent.getItemAtPosition(position));
+                if (transType.equals("Expense")) {
+                    getExpenseTransactions();
+                } else if (transType.equals("Income")) {
+                    getIncomeTransactions();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                Toast.makeText(getActivity(), "Nothing selected!!!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private void getExpenseTransactions() {
+        myTransactions.clear();
+        Helper.StrictMode();
+        TransactionResponse expenses = transactionImpl.getExpenseTransactions(userSession.getUser().get_id());
+        if (expenses != null) {
+            for (TransactionR transaction : expenses.getMyTransactions()) {
+                String key = transaction.getCategory().getName();
+                if (myTransactions.containsKey(key)) {
+                    myTransactions.put(key, myTransactions.get(key) + transaction.getAmount());
+                } else {
+                    myTransactions.put(key, transaction.getAmount());
+                }
+            }
+
+            drawChart();
+        }
+    }
+
+    private void getIncomeTransactions() {
+        myTransactions.clear();
+        Helper.StrictMode();
+        TransactionResponse incomes = transactionImpl.getIncomeTransactions(userSession.getUser().get_id());
+        if (incomes != null) {
+            for (TransactionR transaction : incomes.getMyTransactions()) {
+                String key = transaction.getCategory().getName();
+                if (myTransactions.containsKey(key)) {
+                    myTransactions.put(key, myTransactions.get(key) + transaction.getAmount());
+                } else {
+                    myTransactions.put(key, transaction.getAmount());
+                }
+            }
+
+            drawChart();
+        }
+    }
 }

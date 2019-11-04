@@ -12,9 +12,9 @@
         layout="@layout/toolbar" />
 
     <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/piechart_transcation"
+        android:id="@+id/transactions_piechart"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
