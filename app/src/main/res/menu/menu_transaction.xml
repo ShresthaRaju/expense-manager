@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/nav_delete_trans"
+        android:id="@+id/nav_update_trans"
         android:icon="@drawable/ic_edit_white"
         android:title="Edit Transaction"
         app:showAsAction="always" />

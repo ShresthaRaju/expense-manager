@@ -14,6 +14,7 @@ import org.junit.Rule;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
+import cucumber.api.java.en.Then;
 
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
@@ -48,29 +49,9 @@ public class FeatGEditTransactionStepdefs {
 
     @cucumber.api.java.en.When("^I click edit button$")
     public void iClickEditButton() {
-        onView(withId(R.id.nav_delete_trans)).perform(click());
+        onView(withId(R.id.nav_update_trans)).perform(click());
     }
 
-    @cucumber.api.java.en.And("^I should update all the details of the transaction$")
-    public void iShouldUpdateAllTheDetailsOfTheTransaction() {
-
-        onView(withId(R.id.et_memo_value)).perform(clearText());
-        onView(withId(R.id.et_memo_value)).perform(typeText("Test Edit Memo"));
-        closeSoftKeyboard();
-
-    }
-
-
-    @And("^I should click on save button$")
-    public void iShouldClickOnSaveButton() {
-        onView(withId(R.id.btn_add)).perform(click());
-    }
-
-    @cucumber.api.java.en.And("^I am taken to to the dashboard$")
-    public void iAmTakenToToTheDashboard() {
-        onView(withText("Type:")).check(matches(isDisplayed()));
-        onView(isRoot()).perform(ViewActions.pressBack());
-    }
 
 
     @And("^I leave a flied empty$")
@@ -79,7 +60,26 @@ public class FeatGEditTransactionStepdefs {
 
     }
 
-    @And("^I should see an  error message$")
+    @And("^i enter all the valid details$")
+    public void iEnterAllTheValidDetails() {
+        onView(withId(R.id.et_memo_value)).perform(clearText());
+        onView(withId(R.id.et_memo_value)).perform(typeText("Test Edit Memo"));
+        closeSoftKeyboard();
+    }
+
+    @And("^i click on the save button$")
+    public void iClickOnTheSaveButton() {
+        onView(withId(R.id.btn_add)).perform(click());
+
+    }
+
+    @Then("^i should see updated details on the dashboard$")
+    public void iShouldSeeUpdatedDetailsOnTheDashboard() {
+        onView(withText("Type:")).check(matches(isDisplayed()));
+        onView(isRoot()).perform(ViewActions.pressBack());
+    }
+
+    @Then("^i should see an error message$")
     public void iShouldSeeAnErrorMessage() {
         onView(withText("Amount is required")).check(matches(isDisplayed()));
         onView(isRoot()).perform(ViewActions.pressBack());

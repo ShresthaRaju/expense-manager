@@ -75,7 +75,7 @@ public class TransactionDetailsActivity extends AppCompatActivity implements Con
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.nav_delete_trans) {
+        if (item.getItemId() == R.id.nav_update_trans) {
             Intent updateTransaction = new Intent(this, RecordTransactionActivity.class);
             updateTransaction.putExtra("UPDATE_TRANSACTION", transaction);
             startActivity(updateTransaction);

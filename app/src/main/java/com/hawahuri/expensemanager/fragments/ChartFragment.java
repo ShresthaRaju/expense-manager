@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
@@ -83,16 +84,38 @@ public class ChartFragment extends Fragment {
         pieChart.getDescription().setEnabled(false);
         pieChart.setExtraOffsets(5, 10, 5, 5);
         pieChart.setDragDecelerationFrictionCoef(0.95f);
+
         pieChart.setDrawHoleEnabled(true);
         pieChart.setHoleColor(Color.WHITE);
+        pieChart.setTransparentCircleColor(Color.WHITE);
+        pieChart.setTransparentCircleAlpha(110);
+
+        pieChart.setHoleRadius(58f);
         pieChart.setTransparentCircleRadius(61f);
+        pieChart.setDrawCenterText(true);
+        pieChart.setRotationAngle(0);
+        pieChart.setRotationEnabled(true);
+        pieChart.setHighlightPerTapEnabled(true);
+
+        pieChart.animateY(1200, Easing.EaseInOutQuad);
+
+        Legend l = pieChart.getLegend();
+        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
+        l.setOrientation(Legend.LegendOrientation.VERTICAL);
+        l.setDrawInside(false);
+        l.setTextSize(14f);
+        l.setXEntrySpace(7f);
+        l.setYEntrySpace(0f);
+        l.setYOffset(0f);
+
+        pieChart.setEntryLabelColor(Color.WHITE);
+        pieChart.setEntryLabelTextSize(12f);
 
         ArrayList<PieEntry> pieChartArrayList = new ArrayList<>();
         for (Map.Entry<String, Double> entry : myTransactions.entrySet()) {
-            pieChartArrayList.add(new PieEntry(entry.getValue().floatValue(), entry.getKey()));
+            pieChartArrayList.add(new PieEntry(entry.getValue().floatValue(), entry.getKey()+""));
         }
-
-        pieChart.animateY(1400, Easing.EaseInCirc);
 
         PieDataSet pieDataSet = new PieDataSet(pieChartArrayList, "My Transactions");
         pieDataSet.setSliceSpace(3f);
