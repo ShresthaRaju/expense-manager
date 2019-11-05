@@ -68,4 +68,15 @@
     <string name="no_transaction">No Transaction Yet!</string>
     <string name="record_one">Record one now</string>
 
+    <!--    Profile-->
+    <string name="cover_photo">Cover Photo</string>
+    <string name="profile_image">Profile Image</string>
+    <string name="team_hawa_huri">Team Hawa Huri</string>
+    <string name="profile_email">teamhawahuri@agile.com</string>
+
+    <string-array name="transactions_type">
+        <item>Expense</item>
+        <item>Income</item>
+    </string-array>
+
 </resources>

@@ -21,6 +21,14 @@ public interface TransactionAPI {
     @GET("transactions/users/{creator}")
     Call<TransactionResponse> getMyTransactions(@Path("creator") String creator);
 
+    // get expense transactions
+    @GET("transactions/users/{creator}/expenses")
+    Call<TransactionResponse> getExpenses(@Path("creator") String creator);
+
+    // get income transactions
+    @GET("transactions/users/{creator}/incomes")
+    Call<TransactionResponse> getIncomes(@Path("creator") String creator);
+
     // get single transaction
     @GET("transactions/{id}")
     Call<TransactionResponse> fetchSingleTransaction(@Path("id") String transactionId);

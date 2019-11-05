@@ -60,6 +60,36 @@ public class TransactionImpl {
         return transactionResponse;
     }
 
+    public TransactionResponse getExpenseTransactions(String creator) {
+        TransactionResponse expenses = null;
+        Call<TransactionResponse> expenseTransactionsCall = transactionAPI.getExpenses(creator);
+        try {
+            Response<TransactionResponse> expenseTransactionsResponse = expenseTransactionsCall.execute();
+            if (!expenseTransactionsResponse.isSuccessful()) {
+                return expenses;
+            }
+            expenses = expenseTransactionsResponse.body();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return expenses;
+    }
+
+    public TransactionResponse getIncomeTransactions(String creator) {
+        TransactionResponse incomes = null;
+        Call<TransactionResponse> incomeTransactionsCall = transactionAPI.getIncomes(creator);
+        try {
+            Response<TransactionResponse> incomeTransactionsResponse = incomeTransactionsCall.execute();
+            if (!incomeTransactionsResponse.isSuccessful()) {
+                return incomes;
+            }
+            incomes = incomeTransactionsResponse.body();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return incomes;
+    }
+
     public TransactionResponse getSingleTransaction(String transactionId) {
         TransactionResponse transactionResponse = null;
         Call<TransactionResponse> singleTransactionCall = transactionAPI.fetchSingleTransaction(transactionId);
